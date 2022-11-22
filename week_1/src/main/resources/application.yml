@@ -30,4 +30,4 @@ logging:
 custom:
   site:
     name: Ssubooks
-    baseUrl: "http://localhost:9000"
+    baseUrl: "http://localhost:8020"

@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.app.member.controller;
 
+import com.example.finalproject.finalproject.app.member.dto.PostFindUserNameReq;
 import com.example.finalproject.finalproject.app.member.dto.PostProfileReq;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.form.JoinForm;
@@ -64,7 +65,7 @@ public class MemberController {
         memberService.modifyProfile(member.get(),modifyFrom.getEmail(),modifyFrom.getNickname());
         memberContext.setEmail(modifyFrom.getEmail());
         memberContext.setNickname(modifyFrom.getNickname());
-        return "redirect:/member/profile?msg=" + Ut.url.encode("회원가입이 완료되었습니다.");
+        return "redirect:/member/profile?msg=" + Ut.url.encode("프로필을 수정했습니다.");
     }
 
     @PreAuthorize("isAnonymous()")
@@ -73,5 +74,22 @@ public class MemberController {
         memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
         memberService.welcomeMail(joinForm.getEmail());
         return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.");
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/findUsername")
+    public String showFindUsername(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+        return "member/findUsername";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @PostMapping("/findUsername")
+    public String postFindUsername(Model model,@Valid PostFindUserNameReq findUserNameReq) {
+        Optional<Member> member = memberService.findByEmail(findUserNameReq.getEmail());
+        if(member.isEmpty()){
+            return "redirect:/member/findUsername?msg=" + Ut.url.encode("해당 이메일로 가입된 계정은 없습니다.");
+        }
+
+        return "redirect:/member/findUsername?msg=" + Ut.url.encode("해당 이메일로 가입된 아이디는 "+member.get().getUsername()+" 입니다.");
     }
 }

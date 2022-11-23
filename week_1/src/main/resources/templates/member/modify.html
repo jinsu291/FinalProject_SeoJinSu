@@ -8,10 +8,10 @@
 <body>
 <section layout:fragment="main">
     <script>
-        function ProFileSave__submitForm(form) {
+        function findUsername__submitForm(form) {
             form.email.value = form.email.value.trim();
             if (form.email.value.length == 0) {
-                alert('제목을 입력해주세요.');
+                alert('이메일을 입력해주세요.');
                 form.email.focus();
                 return;
             }
@@ -28,7 +28,7 @@
     </script>
     <div class="container">
 
-        <form id="form" method="POST" onsubmit="ProFileSave__submitForm(this); return false;">
+        <form id="form" method="POST" onsubmit="findUsername__submitForm(this); return false;">
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">이메일</span>

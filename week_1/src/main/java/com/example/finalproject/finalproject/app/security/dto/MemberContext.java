@@ -2,6 +2,7 @@ package com.example.finalproject.finalproject.app.security.dto;
 
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -10,13 +11,14 @@ import java.util.List;
 
 
 @Getter
+@Setter
 public class MemberContext extends User {
     private final Long id;
     private final LocalDateTime createDate;
     private final LocalDateTime modifyDate;
     private final String username;
-    private final String email;
-
+    private String email;
+    private String nickname;
     public MemberContext(Member member, List<GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword(), authorities);
         this.id = member.getId();
@@ -24,6 +26,7 @@ public class MemberContext extends User {
         this.modifyDate = member.getModifyDate();
         this.username = member.getUsername();
         this.email = member.getEmail();
+        this.nickname = member.getNickname();
     }
 
     public Member getMember() {
@@ -34,10 +37,18 @@ public class MemberContext extends User {
                 .modifyDate(modifyDate)
                 .username(username)
                 .email(email)
+                .nickname(nickname)
                 .build();
     }
 
     public String getName() {
         return getUsername();
+    }
+
+    public boolean memberIs(Member member) {
+        return id.equals(member.getId());
+    }
+    public boolean memberIsNot(Member member) {
+        return memberIs(member) == false;
     }
 }

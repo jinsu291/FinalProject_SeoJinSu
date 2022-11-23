@@ -21,7 +21,6 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}") // 회원가입 발송메일주소
@@ -61,5 +60,15 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
+    }
+
+    public void modifyProfile(Member member,String email, String nickname) {
+        member.setEmail(email);
+        member.setNickname(nickname);
+        memberRepository.save(member);
+    }
+    @Transactional(readOnly = true)
+    public Optional<Member> findByUserId(Long id) {
+        return memberRepository.findById(id);
     }
 }

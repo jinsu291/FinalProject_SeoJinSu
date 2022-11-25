@@ -51,4 +51,8 @@ public class MemberContext extends User {
     public boolean memberIsNot(Member member) {
         return memberIs(member) == false;
     }
+    public boolean hasAuthority(String authorityName) {
+        return getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authorityName));
+    }
 }

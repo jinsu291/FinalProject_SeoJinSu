@@ -1,15 +1,18 @@
 package com.example.finalproject.finalproject.app.post.controller;
 
-import com.example.finalproject.finalproject.app.post.dto.PostWriteReq;
+import com.example.finalproject.finalproject.app.base.exception.ActorCanNotModifyException;
+import com.example.finalproject.finalproject.app.base.exception.ActorCanNotRemoveException;
+import com.example.finalproject.finalproject.app.base.rq.Rq;
+import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.post.entity.Post;
+import com.example.finalproject.finalproject.app.post.form.PostForm;
 import com.example.finalproject.finalproject.app.post.service.PostService;
-import com.example.finalproject.finalproject.app.security.dto.MemberContext;
-import com.example.finalproject.finalproject.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,6 +23,7 @@ import javax.validation.Valid;
 @RequestMapping("/post")
 public class PostController {
     private final PostService postService;
+    private final Rq rq;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
@@ -29,15 +33,69 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
-    public String postWrite(@AuthenticationPrincipal MemberContext memberContext, @Valid PostWriteReq postWriteReq) {
-        Post post = postService.write(memberContext.getId(),postWriteReq.getSubject(),postWriteReq.getContent()) ;
-        String msg = "%d번 게시물이 작성되었습니다.".formatted(post.getId());
-        msg = Ut.url.encode(msg);
-        return "redirect:/post/%d?msg=%s".formatted(post.getId(), msg);
+    public String write(@Valid PostForm postForm) {
+        Member author = rq.getMember();
+        Post post = postService.write(author, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml());
+        return Rq.redirectWithMsg("/post/" + post.getId(), "%d번 글이 생성되었습니다.".formatted(post.getId()));
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}/modify")
+    public String showModify(@PathVariable long id, Model model) {
+        Post post = postService.findForPrintById(id).get();
+
+        Member actor = rq.getMember();
+
+        if (postService.actorCanModify(actor, post) == false) {
+            throw new ActorCanNotModifyException();
+        }
+
+        model.addAttribute("post", post);
+
+        return "post/modify";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{id}/modify")
+    public String modify(@Valid PostForm postForm, @PathVariable long id) {
+        Post post = postService.findById(id).get();
+        Member actor = rq.getMember();
+
+        if (postService.actorCanModify(actor, post) == false) {
+            throw new ActorCanNotModifyException();
+        }
+
+        postService.modify(post, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml());
+        return Rq.redirectWithMsg("/post/" + post.getId(), "%d번 글이 수정되었습니다.".formatted(post.getId()));
+    }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public String getPostDetail() {
+    public String getPostDetail(@PathVariable Long id, Model model) {
+        Post post = postService.findForPrintById(id).get();
+
+        Member actor = rq.getMember();
+
+        if (postService.actorCanModify(actor, post) == false) {
+            throw new ActorCanNotModifyException();
+        }
+
+        model.addAttribute("post", post);
         return "post/write";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{id}/remove")
+    public String remove(@PathVariable long id) {
+        Post post = postService.findById(id).get();
+        Member actor = rq.getMember();
+
+        if (postService.actorCanRemove(actor, post) == false) {
+            throw new ActorCanNotRemoveException();
+        }
+
+        postService.remove(post);
+
+        return Rq.redirectWithMsg("/post/list", "%d번 글이 삭제되었습니다.".formatted(post.getId()));
     }
 }

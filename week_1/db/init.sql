@@ -1,9 +1,9 @@
 # DEV DB
-DROP DATABASE IF EXISTS ssubooks__dev;
-CREATE DATABASE ssubooks__dev;
-USE ssubooks__dev;
+DROP DATABASE IF EXISTS finalproject__dev;
+CREATE DATABASE finalproject__dev;
+USE finalproject__dev;
 
 # TEST DB
-DROP DATABASE IF EXISTS ssubooks__test;
-CREATE DATABASE ssubooks__test;
-USE ssubooks__test
+DROP DATABASE IF EXISTS finalproject__test;
+CREATE DATABASE finalproject__test;
+USE finalproject__test;

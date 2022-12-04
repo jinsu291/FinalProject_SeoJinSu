@@ -1,5 +1,7 @@
 package com.example.finalproject.finalproject.app.member.service;
 
+import com.example.finalproject.finalproject.app.cash.entity.CashLog;
+import com.example.finalproject.finalproject.app.cash.service.CashService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.exception.AlreadyJoinException;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
@@ -22,6 +24,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private final CashService cashService;
 
     @Value("${spring.mail.username}") // 회원가입 발송메일주소
     private String from;
@@ -75,5 +78,19 @@ public class MemberService {
     public Optional<Member> findByEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
         return member;
+    }
+    @Transactional
+    public long addCash(Member member, long price, String eventType) {
+        CashLog cashLog = cashService.addCash(member, price, eventType);
+
+        long newRestCash = member.getRestCash() + cashLog.getPrice();
+        member.setRestCash(newRestCash);
+        memberRepository.save(member);
+
+        return newRestCash;
+    }
+
+    public long getRestCash(Member member) {
+        return member.getRestCash();
     }
 }

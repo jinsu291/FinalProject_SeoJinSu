@@ -1,4 +1,4 @@
-package com.example.finalproject.finalproject;
+package com.example.finalproject.finalproject.service;
 
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.service.CartService;

@@ -30,16 +30,16 @@ public class ProductController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String showWrite() {
+    public String showCreate() {
         return "product/create";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String write(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm) {
+    public String create(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm) {
         Member author = memberContext.getMember();
         Product product = productService.create(author, productForm.getSubject(), productForm.getPrice());
-        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 음원이 생성되었습니다.".formatted(product.getId()));
+        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -55,7 +55,7 @@ public class ProductController {
 
         model.addAttribute("product", product);
 
-        return "song/modify";
+        return "product/modify";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -69,7 +69,7 @@ public class ProductController {
         }
 
         productService.modify(product, songForm.getSubject(), songForm.getPrice());
-        return "redirect:/song/" + product.getId() + "?msg=" + Ut.url.encode("%d번 음원이 생성되었습니다.".formatted(product.getId()));
+        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
     }
 
     @PreAuthorize("isAuthenticated()")

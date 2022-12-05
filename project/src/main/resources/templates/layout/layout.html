@@ -71,6 +71,13 @@
                     프로필
                 </span>
             </a>
+
+            <a href="/product/create" class="inline-flex" sec:authorize="isAuthenticated()">
+                <i class="fa-solid fa-upload"></i>
+                <span class="ml-[2px] hidden sm:block">
+                    도서 업로드
+                </span>
+            </a>
         </div>
     </div>
 </header>

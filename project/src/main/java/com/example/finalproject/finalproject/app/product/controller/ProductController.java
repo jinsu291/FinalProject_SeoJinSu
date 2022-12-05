@@ -60,7 +60,7 @@ public class ProductController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/modify")
-    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm songForm, @PathVariable long id) {
+    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm, @PathVariable long id) {
         Product product = productService.findById(id).get();
         Member actor = memberContext.getMember();
 
@@ -68,7 +68,7 @@ public class ProductController {
             throw new ActorCanNotModifyException();
         }
 
-        productService.modify(product, songForm.getSubject(), songForm.getPrice());
+        productService.modify(product, productForm.getSubject(), productForm.getPrice());
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
     }
 

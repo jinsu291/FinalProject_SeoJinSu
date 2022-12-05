@@ -3,6 +3,7 @@ package com.example.finalproject.finalproject.app.order.controller;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.order.entity.Order;
 import com.example.finalproject.finalproject.app.order.exception.ActorCanNotSeeOrderException;
+import com.example.finalproject.finalproject.app.order.exception.OrderIdNotMatchedException;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
 import com.example.finalproject.finalproject.app.security.dto.MemberContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -68,8 +69,20 @@ public class OrderController {
 
     @RequestMapping("/{id}/success")
     public String confirmPayment(
-            @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount,
-            Model model) throws Exception {
+            @PathVariable long id,
+            @RequestParam String paymentKey,
+            @RequestParam String orderId,
+            @RequestParam Long amount,
+            Model model
+    ) throws Exception {
+
+        Order order = orderService.findForPrintById(id).get();
+
+        long orderIdInputed = Long.parseLong(orderId.split("__")[1]);
+
+        if ( id != orderIdInputed ) {
+            throw new OrderIdNotMatchedException();
+        }
 
         HttpHeaders headers = new HttpHeaders();
         // headers.setBasicAuth(SECRET_KEY, ""); // spring framework 5.2 이상 버전에서 지원

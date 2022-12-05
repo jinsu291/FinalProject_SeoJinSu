@@ -1,6 +1,7 @@
 package com.example.finalproject.finalproject.app.order.controller;
 
 import com.example.finalproject.finalproject.app.member.entity.Member;
+import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.entity.Order;
 import com.example.finalproject.finalproject.app.order.exception.ActorCanNotSeeOrderException;
 import com.example.finalproject.finalproject.app.order.exception.OrderIdNotMatchedException;
@@ -35,6 +36,7 @@ public class OrderController {
     private final OrderService orderService;
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
+    private final MemberService memberService;
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
@@ -43,12 +45,14 @@ public class OrderController {
 
         Member actor = memberContext.getMember();
 
+        long restCash = memberService.getRestCash(actor);
+
         if (orderService.actorCanSee(actor, order) == false) {
             throw new ActorCanNotSeeOrderException();
         }
 
         model.addAttribute("order", order);
-
+        model.addAttribute("actorRestCash", restCash);
         return "order/detail";
     }
 

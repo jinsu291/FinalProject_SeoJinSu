@@ -20,7 +20,7 @@
     </script>
 
     <script>
-        const tossPayments = TossPayments("test_ck_BE92LAa5PVbDMxDgLzB87YmpXyJj");
+        const tossPayments = TossPayments("test_ck_k6bJXmgo28e96A2Wevy8LAnGKWx4");
 
         function payment() {
             const method = "카드"; // "카드" 혹은 "가상계좌"
@@ -37,10 +37,6 @@
             tossPayments.requestPayment(method, paymentData);
         }
     </script>
-
-    <form hidden name="payByRestCashOnlyForm" method="POST" th:action="@{|/order/${order.id}/payByRestCashOnly|}">
-
-    </form>
 
     <section class="section section-write container mx-auto">
 

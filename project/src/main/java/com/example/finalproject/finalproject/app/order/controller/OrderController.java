@@ -65,24 +65,12 @@ public class OrderController {
         });
     }
 
-    private final String SECRET_KEY = "test_sk_jkYG57Eba3GgM1wB0a53pWDOxmA1"; // 나중에 수정하기
+    private final String SECRET_KEY = "test_sk_JQbgMGZzorz5oyRvgkLVl5E1em4d";
 
     @RequestMapping("/{id}/success")
     public String confirmPayment(
-            @PathVariable long id,
-            @RequestParam String paymentKey,
-            @RequestParam String orderId,
-            @RequestParam Long amount,
-            Model model
-    ) throws Exception {
-
-        Order order = orderService.findForPrintById(id).get();
-
-        long orderIdInputed = Long.parseLong(orderId.split("__")[1]);
-
-        if ( id != orderIdInputed ) {
-            throw new OrderIdNotMatchedException();
-        }
+            @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount,
+            Model model) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
         // headers.setBasicAuth(SECRET_KEY, ""); // spring framework 5.2 이상 버전에서 지원

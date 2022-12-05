@@ -92,7 +92,7 @@ public class Order extends BaseEntity {
         return payPrice;
     }
 
-    public String makeName() {
+    public String getName() {
         String name = orderItems.get(0).getProduct().getSubject();
 
         if ( orderItems.size() > 1 ) {

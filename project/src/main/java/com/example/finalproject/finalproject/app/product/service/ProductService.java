@@ -37,4 +37,20 @@ public class ProductService {
         product.setSubject(subject);
         product.setPrice(price);
     }
+
+    public boolean actorCanModify(Member author, Product product) {
+        return author.getId().equals(product.getAuthor().getId());
+    }
+
+    public boolean actorCanDelete(Member author, Product product) {
+        return actorCanModify(author, product);
+    }
+
+    public Optional<Product> findForPrintById(long id) {
+        Optional<Product> opProduct = findById(id);
+
+        if (opProduct.isEmpty()) return opProduct;
+
+        return opProduct;
+    }
 }

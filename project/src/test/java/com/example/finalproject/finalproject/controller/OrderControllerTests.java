@@ -31,7 +31,7 @@ public class OrderControllerTests {
 
     @Test
     @DisplayName("주문 상세화면")
-    @WithUserDetails("user2")
+    @WithUserDetails("user1")
     void t1() throws Exception {
         // WHEN
         ResultActions resultActions = mvc

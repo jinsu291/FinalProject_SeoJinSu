@@ -38,7 +38,7 @@ public interface InitDataBefore {
         Member member1 = memberService.join("user1", "1234", "user1@test.com", "");
         Member member2 = memberService.join("user2", "1234", "user2@test.com", "user2");
 
-        Product product1 = productService.create(member1, "상품명1 상품명1 상품명1 상품명1 상품명1 상품명1", 30_000);
+        Product product1 = productService.create(member1, "상품명1", 30_000);
         Product product2 = productService.create(member2, "상품명2", 40_000);
         Product product3 = productService.create(member1, "상품명3", 50_000);
         Product product4 = productService.create(member2, "상품명4", 60_000);

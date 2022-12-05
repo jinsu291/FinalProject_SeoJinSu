@@ -92,7 +92,7 @@ public class Order extends BaseEntity {
         return payPrice;
     }
 
-    public String getName() {
+    public String makeName() {
         String name = orderItems.get(0).getProduct().getSubject();
 
         if ( orderItems.size() > 1 ) {
@@ -100,5 +100,12 @@ public class Order extends BaseEntity {
         }
 
         return name;
+    }
+
+    public boolean isPayable() {
+        if ( isPaid ) return false;
+        if ( isCanceled ) return false;
+
+        return true;
     }
 }

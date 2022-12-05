@@ -7,7 +7,7 @@ import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.entity.Order;
 import com.example.finalproject.finalproject.app.order.entity.OrderItem;
 import com.example.finalproject.finalproject.app.order.repository.OrderRepository;
-import com.example.finalproject.finalproject.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -4,7 +4,7 @@ import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
 import com.example.finalproject.finalproject.app.post.service.PostService;
-import com.example.finalproject.finalproject.product.service.ProductService;
+import com.example.finalproject.finalproject.app.product.service.ProductService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.finalproject.finalproject.product.entity;
+package com.example.finalproject.finalproject.app.product.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
 import com.example.finalproject.finalproject.app.member.entity.Member;

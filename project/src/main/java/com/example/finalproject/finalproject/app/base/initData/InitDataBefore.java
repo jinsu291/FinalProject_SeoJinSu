@@ -7,8 +7,8 @@ import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.entity.Order;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
 import com.example.finalproject.finalproject.app.post.service.PostService;
-import com.example.finalproject.finalproject.product.entity.Product;
-import com.example.finalproject.finalproject.product.service.ProductService;
+import com.example.finalproject.finalproject.app.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.service.ProductService;
 
 import java.util.Arrays;
 import java.util.List;

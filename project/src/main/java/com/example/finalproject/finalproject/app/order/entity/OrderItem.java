@@ -1,7 +1,7 @@
 package com.example.finalproject.finalproject.app.order.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
-import com.example.finalproject.finalproject.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

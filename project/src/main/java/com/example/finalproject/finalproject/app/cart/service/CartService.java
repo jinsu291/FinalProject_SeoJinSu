@@ -3,13 +3,12 @@ package com.example.finalproject.finalproject.app.cart.service;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.repository.CartItemRepository;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

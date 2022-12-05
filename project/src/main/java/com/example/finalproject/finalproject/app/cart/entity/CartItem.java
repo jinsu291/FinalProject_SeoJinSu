@@ -2,7 +2,7 @@ package com.example.finalproject.finalproject.app.cart.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

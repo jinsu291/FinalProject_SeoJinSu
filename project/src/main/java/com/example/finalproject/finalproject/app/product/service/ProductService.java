@@ -1,8 +1,8 @@
-package com.example.finalproject.finalproject.product.service;
+package com.example.finalproject.finalproject.app.product.service;
 
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.product.entity.Product;
-import com.example.finalproject.finalproject.product.repository.ProductRepository;
+import com.example.finalproject.finalproject.app.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

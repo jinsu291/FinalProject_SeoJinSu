@@ -2,8 +2,8 @@ package com.example.finalproject.finalproject.service;
 
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
-import com.example.finalproject.finalproject.product.entity.Product;
-import com.example.finalproject.finalproject.product.service.ProductService;
+import com.example.finalproject.finalproject.app.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

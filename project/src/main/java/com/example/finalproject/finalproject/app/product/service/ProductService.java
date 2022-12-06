@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,5 +53,9 @@ public class ProductService {
         if (opProduct.isEmpty()) return opProduct;
 
         return opProduct;
+    }
+
+    public List<Product> findAllByAuthorId(Long id) {
+        return productRepository.findAllByAuthorId(id);
     }
 }

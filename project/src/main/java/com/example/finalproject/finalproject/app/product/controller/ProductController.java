@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -70,6 +71,18 @@ public class ProductController {
 
         productService.modify(product, productForm.getSubject(), productForm.getPrice());
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String showList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
+        Member actor = memberContext.getMember();
+
+        List<Product> products = productService.findAllByAuthorId(actor.getId());
+
+        model.addAttribute("products", products);
+
+        return "product/list";
     }
 
     @PreAuthorize("isAuthenticated()")

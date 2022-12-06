@@ -31,15 +31,6 @@
                         return;
                     }
 
-                    form.postTagContents.value = form.postTagContents.value.trim();
-
-                    if (form.postTagContents.value.length == 0) {
-                        warningModal("태그를 입력해주세요.");
-                        form.postTagContents.focus();
-
-                        return;
-                    }
-
                     const editor = $(form).find(".toast-ui-editor").data("data-toast-editor");
                     const markdown = editor.getMarkdown().trim();
                     const html = editor.getHTML().trim();

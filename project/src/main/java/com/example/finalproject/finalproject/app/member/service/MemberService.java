@@ -1,10 +1,12 @@
 package com.example.finalproject.finalproject.app.member.service;
 
+import com.example.finalproject.finalproject.app.base.dto.RsData;
 import com.example.finalproject.finalproject.app.cash.entity.CashLog;
 import com.example.finalproject.finalproject.app.cash.service.CashService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.exception.AlreadyJoinException;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
+import com.example.finalproject.finalproject.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -80,14 +83,21 @@ public class MemberService {
         return member;
     }
     @Transactional
-    public long addCash(Member member, long price, String eventType) {
+    public RsData<Map<String, Object>> addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getRestCash() + cashLog.getPrice();
         member.setRestCash(newRestCash);
         memberRepository.save(member);
 
-        return newRestCash;
+        return RsData.of(
+                "S-1",
+                "성공",
+                Ut.mapOf(
+                        "cashLog", cashLog,
+                        "newRestCash", newRestCash
+                )
+        );
     }
 
     public long getRestCash(Member member) {

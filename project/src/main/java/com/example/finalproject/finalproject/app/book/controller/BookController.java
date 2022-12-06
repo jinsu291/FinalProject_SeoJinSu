@@ -1,11 +1,11 @@
-package com.example.finalproject.finalproject.app.product.controller;
+package com.example.finalproject.finalproject.app.book.controller;
 
 import com.example.finalproject.finalproject.app.base.exception.ActorCanNotModifyException;
 import com.example.finalproject.finalproject.app.base.exception.ActorCanNotSeeException;
+import com.example.finalproject.finalproject.app.book.entity.Book;
+import com.example.finalproject.finalproject.app.book.form.BookForm;
+import com.example.finalproject.finalproject.app.book.service.BookService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.app.product.entity.Product;
-import com.example.finalproject.finalproject.app.product.form.ProductForm;
-import com.example.finalproject.finalproject.app.product.service.ProductService;
 import com.example.finalproject.finalproject.app.security.dto.MemberContext;
 import com.example.finalproject.finalproject.util.Ut;
 import lombok.RequiredArgsConstructor;
@@ -24,53 +24,53 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("/book")
 @Slf4j
-public class ProductController {
-    private final ProductService productService;
+public class BookController {
+    private final BookService bookService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String showCreate() {
-        return "product/create";
+        return "book/create";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String create(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm) {
+    public String create(@AuthenticationPrincipal MemberContext memberContext, @Valid BookForm bookForm) {
         Member author = memberContext.getMember();
-        Product product = productService.create(author, productForm.getSubject(), productForm.getPrice());
-        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
+        Book book = bookService.create(author, bookForm.getSubject(), bookForm.getPrice());
+        return "redirect:/book/" + book.getId() + "?msg=" + Ut.url.encode("%d번 도서가 생성되었습니다.".formatted(book.getId()));
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/modify")
     public String showModify(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
-        Product product = productService.findForPrintById(id).get();
+        Book book = bookService.findForPrintById(id).get();
 
         Member actor = memberContext.getMember();
 
-        if (productService.actorCanModify(actor, product) == false) {
+        if (bookService.actorCanModify(actor, book) == false) {
             throw new ActorCanNotModifyException();
         }
 
-        model.addAttribute("product", product);
+        model.addAttribute("book", book);
 
-        return "product/modify";
+        return "book/modify";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/modify")
-    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm, @PathVariable long id) {
-        Product product = productService.findById(id).get();
+    public String modify(@AuthenticationPrincipal MemberContext memberContext, @Valid BookForm bookForm, @PathVariable long id) {
+        Book book = bookService.findById(id).get();
         Member actor = memberContext.getMember();
 
-        if (productService.actorCanModify(actor, product) == false) {
+        if (bookService.actorCanModify(actor, book) == false) {
             throw new ActorCanNotModifyException();
         }
 
-        productService.modify(product, productForm.getSubject(), productForm.getPrice());
-        return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
+        bookService.modify(book, bookForm.getSubject(), bookForm.getPrice());
+        return "redirect:/book/" + book.getId() + "?msg=" + Ut.url.encode("%d번 도서가 생성되었습니다.".formatted(book.getId()));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -78,26 +78,26 @@ public class ProductController {
     public String showList(@AuthenticationPrincipal MemberContext memberContext, Model model) {
         Member actor = memberContext.getMember();
 
-        List<Product> products = productService.findAllByAuthorId(actor.getId());
+        List<Book> books = bookService.findAllByAuthorId(actor.getId());
 
-        model.addAttribute("products", products);
+        model.addAttribute("books", books);
 
-        return "product/list";
+        return "book/list";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String detail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable Long id, Model model) {
-        Product product = productService.findForPrintById(id).get();
+        Book book = bookService.findForPrintById(id).get();
 
         Member actor = memberContext.getMember();
 
-        if (productService.actorCanModify(actor, product) == false) {
+        if (bookService.actorCanModify(actor, book) == false) {
             throw new ActorCanNotSeeException();
         }
 
-        model.addAttribute("product", product);
+        model.addAttribute("book", book);
 
-        return "product/detail";
+        return "book/detail";
     }
 }

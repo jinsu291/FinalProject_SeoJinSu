@@ -13,14 +13,14 @@
             <h1 class="font-bold text-lg">내 도서 목록</h1>
 
             <ul>
-                <li th:each="product : ${product}" class="flex items-center">
-                    <a th:href="@{|/product/${product.id}|}">
-                        <svg width="80" height="80" th:data-jdenticon-value="${product.jdenticon}"></svg>
+                <li th:each="book : ${book}" class="flex items-center">
+                    <a th:href="@{|/book/${book.id}|}">
+                        <svg width="80" height="80" th:data-jdenticon-value="${book.jdenticon}"></svg>
                     </a>
 
-                    <a th:href="@{|/product/${product.id}|}">
+                    <a th:href="@{|/book/${book.id}|}">
                         <span
-                                th:text="${product.subject}"></span>
+                                th:text="${book.subject}"></span>
                     </a>
 
                     </span>

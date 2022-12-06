@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout/layout.html}">
 
 <head>
-    <title>도서 수정</title>
+    <title>상품 등록</title>
 </head>
 
 <body>
@@ -11,14 +11,15 @@
 
         <div class="px-2 pt-4">
             <h1 class="font-bold text-lg">
-                <i class="fa-solid fa-eraser"></i> 도서 수정
+                <i class="fa-solid fa-book-medical"></i>
+                도서 등록
             </h1>
 
             <script>
-                let ProductCreate__submitDone = false;
+                let BookCreate__submitDone = false;
 
-                function ProductCreate__submit(form) {
-                    if (ProductCreate__submitDone) {
+                function BookCreate__submit(form) {
+                    if (BookCreate__submitDone) {
                         return;
                     }
 
@@ -47,25 +48,25 @@
 
 
             <form th:action method="POST" class="flex flex-col gap-3"
-                  onsubmit="SongModify__submit(this); return false;">
+                  onsubmit="BookCreate__submit(this); return false;">
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">제목</span>
                     </label>
                     <input autofocus type="text" name="subject" placeholder="제목" class="input input-bordered"
-                           maxlength="50" th:value="${song.subject}">
+                           maxlength="50">
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">내용</span>
+                        <span class="label-text">가격</span>
                     </label>
-                    <textarea name="content" placeholder="#내용" class="textarea textarea-bordered min-h-[500px] h-[calc(100vh-400px)]"
-                              maxlength="10000" th:utext="${song.content}"></textarea>
+                    <input autofocus type="number" name="price" placeholder="가격" class="input input-bordered"
+                           maxlength="50">
                 </div>
 
                 <div class="grid grid-cols-2 mt-2 gap-2">
-                    <input class="btn btn-primary" type="submit" value="도서 수정">
+                    <input class="btn btn-primary" type="submit" value="도서 업로드">
                     <button type="button" onclick="history.back();" class="btn btn-secondary btn-outline">취소</button>
                 </div>
             </form>

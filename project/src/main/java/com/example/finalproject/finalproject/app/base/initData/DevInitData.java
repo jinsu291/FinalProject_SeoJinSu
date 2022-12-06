@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.app.base.initData;
 
+import com.example.finalproject.finalproject.app.book.service.BookService;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
@@ -17,12 +18,13 @@ public class DevInitData implements InitDataBefore {
     CommandLineRunner initData(
             MemberService memberService,
             PostService postService,
+            BookService bookService,
             ProductService productService,
             CartService cartService,
             OrderService orderService
-            ) {
+    ) {
         return args -> {
-            before(memberService, postService, productService, cartService, orderService);
+            before(memberService, postService, bookService, productService,  cartService, orderService);
         };
     }
 }

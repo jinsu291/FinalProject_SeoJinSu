@@ -17,10 +17,10 @@
             <ul>
                 <li th:each="item : ${items}" class="flex items-center">
                     <input onchange="CartItemCheckbox__changed();" type="checkbox" class="cartItemCheckbox checkbox" th:value="${item.id}">
-                    <svg width="80" height="80" th:data-jdenticon-value="${item.product.jdenticon}"></svg>
+                    <svg width="80" height="80" th:data-jdenticon-value="${item.book.jdenticon}"></svg>
                     <div>
-                        <span th:text="${item.product.author.name}"></span> <span
-                            th:text="${item.product.subject}"></span> <span th:text="${item.product.salePrice}"></span>
+                        <span th:text="${item.book.author.name}"></span> <span
+                            th:text="${item.book.subject}"></span> <span th:text="${item.book.salePrice}"></span>
                     </div>
 
                     </span>

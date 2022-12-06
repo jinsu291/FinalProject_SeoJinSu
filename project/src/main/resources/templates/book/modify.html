@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout/layout.html}">
 
 <head>
-    <title>상품 등록</title>
+    <title>도서 수정</title>
 </head>
 
 <body>
@@ -11,15 +11,14 @@
 
         <div class="px-2 pt-4">
             <h1 class="font-bold text-lg">
-                <i class="fa-solid fa-book-medical"></i>
-                도서 등록
+                <i class="fa-solid fa-eraser"></i> 도서 수정
             </h1>
 
             <script>
-                let ProductCreate__submitDone = false;
+                let BookCreate__submitDone = false;
 
-                function ProductCreate__submit(form) {
-                    if (ProductCreate__submitDone) {
+                function BookCreate__submit(form) {
+                    if (BookCreate__submitDone) {
                         return;
                     }
 
@@ -48,25 +47,25 @@
 
 
             <form th:action method="POST" class="flex flex-col gap-3"
-                  onsubmit="SongCreate__submit(this); return false;">
+                  onsubmit="BookModify__submit(this); return false;">
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">제목</span>
                     </label>
                     <input autofocus type="text" name="subject" placeholder="제목" class="input input-bordered"
-                           maxlength="50">
+                           maxlength="50" th:value="${book.subject}">
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">가격</span>
+                        <span class="label-text">내용</span>
                     </label>
-                    <input autofocus type="number" name="price" placeholder="가격" class="input input-bordered"
-                           maxlength="50">
+                    <textarea name="content" placeholder="#내용" class="textarea textarea-bordered min-h-[500px] h-[calc(100vh-400px)]"
+                              maxlength="10000" th:utext="${book.content}"></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 mt-2 gap-2">
-                    <input class="btn btn-primary" type="submit" value="상품 업로드">
+                    <input class="btn btn-primary" type="submit" value="도서 수정">
                     <button type="button" onclick="history.back();" class="btn btn-secondary btn-outline">취소</button>
                 </div>
             </form>

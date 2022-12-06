@@ -1,7 +1,6 @@
-package com.example.finalproject.finalproject.app.product.entity;
+package com.example.finalproject.finalproject.app.book.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
-import com.example.finalproject.finalproject.app.book.entity.Book;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +18,13 @@ import static lombok.AccessLevel.PROTECTED;
 @Setter
 @SuperBuilder
 @NoArgsConstructor(access = PROTECTED)
-public class Product extends BaseEntity {
+public class Book extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member author;
-    @ManyToOne(fetch = LAZY)
-    private Book book;
     private String subject;
     private int price;
 
-    public Product(long id) {
+    public Book(long id) {
         super(id);
     }
 
@@ -44,6 +41,6 @@ public class Product extends BaseEntity {
     }
 
     public String getJdenticon() {
-        return "product__" + getId();
+        return "book__" + getId();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.finalproject.finalproject.app.base.initData;
 
+import com.example.finalproject.finalproject.app.book.entity.Book;
+import com.example.finalproject.finalproject.app.book.service.BookService;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
@@ -17,6 +19,7 @@ public interface InitDataBefore {
     default void before(
             MemberService memberService,
             PostService postService,
+            BookService bookService,
             ProductService productService,
             CartService cartService,
             OrderService orderService) {
@@ -38,10 +41,19 @@ public interface InitDataBefore {
         Member member1 = memberService.join("user1", "1234", "user1@test.com", "");
         Member member2 = memberService.join("user2", "1234", "user2@test.com", "user2");
 
-        Product product1 = productService.create(member1, "상품명1", 30_000);
-        Product product2 = productService.create(member2, "상품명2", 40_000);
-        Product product3 = productService.create(member1, "상품명3", 50_000);
-        Product product4 = productService.create(member2, "상품명4", 60_000);
+        Book book1 = bookService.create(member1, "책 1", 30_000);
+        Book book2 = bookService.create(member1, "책 2", 40_000);
+        Book book3 = bookService.create(member2, "책 3", 50_000);
+        Book book4 = bookService.create(member2, "책 4", 60_000);
+        Book book5 = bookService.create(member1, "책 5", 70_000);
+        Book book6 = bookService.create(member1, "책 6", 80_000);
+        Book book7 = bookService.create(member2, "책 7", 90_000);
+        Book book8 = bookService.create(member2, "책 8", 100_000);
+
+        Product product1 = productService.create(book1, member1, "책 1", 30_000);
+        Product product2 = productService.create(book3, member2, "책 3", 50_000);
+        Product product3 = productService.create(book5, member1, "책 5", 70_000);
+        Product product4 = productService.create(book7, member2, "책 7", 90_000);
 
         CartItem cartItem1 = cartService.addItem(member1, product1);
         CartItem cartItem2 = cartService.addItem(member1, product2);
@@ -52,7 +64,6 @@ public interface InitDataBefore {
         memberService.addCash(member1, 20_000, "충전__무통장입금");
         memberService.addCash(member1, -5_000, "출금__일반");
         memberService.addCash(member1, 1_000_000, "충전__무통장입금");
-
         memberService.addCash(member2, 2_000_000, "충전__무통장입금");
 
         // 1번 주문 : 결제완료
@@ -86,7 +97,6 @@ public interface InitDataBefore {
         cartService.addItem(member1, product1);
         cartService.addItem(member1, product2);
         cartService.addItem(member1, product3);
-
         cartService.addItem(member2, product4);
     }
 }

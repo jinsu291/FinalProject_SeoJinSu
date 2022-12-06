@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @Transactional
 public class PostService {
-
     private final PostRepository postRepository;
 
     public Post write(Member author, String subject, String content, String contentHtml) {

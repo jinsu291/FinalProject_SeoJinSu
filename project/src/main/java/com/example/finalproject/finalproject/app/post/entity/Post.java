@@ -33,4 +33,8 @@ public class Post extends BaseEntity {
     public String getForPrintContentHtml() {
         return contentHtml.replaceAll("toastui-editor-ww-code-block-highlighting", "");
     }
+
+    public String getJdenticon() {
+        return "post__" + getId();
+    }
 }

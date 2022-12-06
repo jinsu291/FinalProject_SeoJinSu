@@ -49,7 +49,7 @@ public class ProductController {
         Book book = bookService.findById(productForm.getBookId()).get();
 
         if (author.getId().equals(book.getAuthor().getId()) == false) {
-            return "redirect:/product/create?msg=" + Ut.url.encode("%d번 음원에 대한 권한이 없습니다.".formatted(book.getId()));
+            return "redirect:/product/create?msg=" + Ut.url.encode("%d번 상품에 대한 권한이 없습니다.".formatted(book.getId()));
         }
 
         Product product = productService.create(book, productForm.getSubject(), productForm.getPrice());

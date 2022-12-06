@@ -1,6 +1,8 @@
 package com.example.finalproject.finalproject.app.rebate.controller;
 
+import com.example.finalproject.finalproject.app.rebate.service.RebateService;
 import com.example.finalproject.finalproject.util.Ut;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,10 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/adm/rebate")
+@RequiredArgsConstructor
 public class AdmRebateController {
+    private final RebateService rebateService;
+
     @GetMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showMakeData() {

@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.service;
 
+import com.example.finalproject.finalproject.app.book.entity.Book;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.app.product.entity.Product;
@@ -28,10 +29,10 @@ public class BookServiceTests {
     void t1() {
         Member author = memberRepository.findByUsername("user1").get();
 
-        Product product3 = productService.create(author, "상품명3", 50_000);
-        Product product4 = productService.create(author, "상품명4", 60_000);
-
-        assertThat(product3).isNotNull();
-        assertThat(product4).isNotNull();
+//        Product product3 = productService.create(author, "책 5", 70_000);
+//        Product product4 = productService.create(author, "책 7", 90_000);
+//
+//        assertThat(product3).isNotNull();
+//        assertThat(product4).isNotNull();
     }
 }

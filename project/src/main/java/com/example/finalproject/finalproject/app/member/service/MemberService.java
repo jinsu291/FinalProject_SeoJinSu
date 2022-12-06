@@ -8,15 +8,10 @@ import com.example.finalproject.finalproject.app.member.exception.AlreadyJoinExc
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.util.Ut;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,12 +21,9 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender javaMailSender;
     private final CashService cashService;
 
-    @Value("${spring.mail.username}") // 회원가입 발송메일주소
-    private String from;
-
+    @Transactional
     public Member join(String username, String password, String email, String nickname){
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new AlreadyJoinException();
@@ -47,20 +39,6 @@ public class MemberService {
         memberRepository.save(member);
 
         return member;
-    }
-
-    public void welcomeMail(String email) throws MessagingException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        mimeMessageHelper.setFrom(from); // 보낼 주소
-        mimeMessageHelper.setTo(email); // 받을 주소
-        mimeMessageHelper.setSubject("안녕하세요 백엔드스쿨"); // 제목
-
-        StringBuilder body = new StringBuilder();
-
-        body.append("회원가입을 환영합니다"); // 내용
-        mimeMessageHelper.setText(body.toString(), true);
-        javaMailSender.send(mimeMessage);
     }
 
     @Transactional(readOnly = true)

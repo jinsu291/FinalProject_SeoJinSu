@@ -26,6 +26,10 @@ public class Member extends BaseEntity {
     private long restCash;
 
     public String getName() {
+        if (nickname != null) {
+            return nickname;
+        }
+
         return username;
     }
 

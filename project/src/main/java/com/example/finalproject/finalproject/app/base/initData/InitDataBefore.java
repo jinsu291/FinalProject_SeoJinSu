@@ -50,10 +50,10 @@ public interface InitDataBefore {
         Book book7 = bookService.create(member2, "책 7", 90_000);
         Book book8 = bookService.create(member2, "책 8", 100_000);
 
-        Product product1 = productService.create(book1, member1, "책 1", 30_000);
-        Product product2 = productService.create(book3, member2, "책 3", 50_000);
-        Product product3 = productService.create(book5, member1, "책 5", 70_000);
-        Product product4 = productService.create(book7, member2, "책 7", 90_000);
+        Product product1 = productService.create(book1, "책 1", 30_000);
+        Product product2 = productService.create(book3, "책 3", 50_000);
+        Product product3 = productService.create(book5, "책 5", 70_000);
+        Product product4 = productService.create(book7, "책 7", 90_000);
 
         CartItem cartItem1 = cartService.addItem(member1, product1);
         CartItem cartItem2 = cartService.addItem(member1, product2);

@@ -18,9 +18,9 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Product create(Book book, Member author, String subject, int price) {
+    public Product create(Book book, String subject, int price) {
         Product product = Product.builder()
-                .author(author)
+                .author(book.getAuthor())
                 .book(book)
                 .subject(subject)
                 .price(price)

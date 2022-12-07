@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.app.productTag.entity;
 
+import com.example.finalproject.finalproject.app.ProductKeyword.entity.ProductKeyword;
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.product.entity.Product;
@@ -28,7 +29,7 @@ public class ProductTag extends BaseEntity {
     @ToString.Exclude
     private Member member;
 
-//    @ManyToOne
-//    @ToString.Exclude
-//    private ProductKeyword productKeyword;
+    @ManyToOne
+    @ToString.Exclude
+    private ProductKeyword productKeyword;
 }

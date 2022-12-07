@@ -10,12 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @SuperBuilder
 @ToString(callSuper = true)
 public class Post extends BaseEntity {

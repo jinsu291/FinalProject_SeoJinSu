@@ -82,13 +82,6 @@
                 </span>
             </a>
 
-            <a href="/book/create" class="inline-flex" sec:authorize="isAuthenticated()">
-                <i class="fa-solid fa-upload"></i>
-                <span class="ml-[2px] hidden sm:block">
-                    도서 업로드
-                </span>
-            </a>
-
             <a href="/cart/items" class="inline-flex" th:if="${@rq.logined}">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="ml-[2px] hidden lg:block">
@@ -107,6 +100,14 @@
                 <i class="fa-solid fa-rectangle-list"></i>
                 <span class="ml-[2px] hidden lg:block">
                     글 목록
+                </span>
+            </a>
+
+
+            <a href="/book/create" class="inline-flex" sec:authorize="isAuthenticated()">
+                <i class="fa-solid fa-upload"></i>
+                <span class="ml-[2px] hidden sm:block">
+                    도서 업로드
                 </span>
             </a>
 

@@ -63,10 +63,17 @@ public class PostService {
         return opPost;
     }
 
+    public List<Post> findAllForPrintByAuthorIdOrderByIdDesc(long authorId) {
+        List<Post> posts = postRepository.findAllByAuthorIdOrderByIdDesc(authorId);
+
+        return posts;
+    }
+
     public boolean actorCanSee(Member actor, Post post) {
         if ( actor == null ) return false;
         if ( post == null ) return false;
 
         return post.getAuthor().getId().equals(actor.getId());
     }
+
 }

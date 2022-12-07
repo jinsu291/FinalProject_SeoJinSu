@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,6 +68,32 @@ public class PostController {
 
         postService.modify(post, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml());
         return Rq.redirectWithMsg("/post/" + post.getId(), "%d번 글이 수정되었습니다.".formatted(post.getId()));
+    }
+
+//    @PreAuthorize("isAuthenticated()")
+//    @GetMapping("/{id}")
+//    public String detail(@PathVariable Long id, Model model) {
+//        Post post = postService.findForPrintById(id).get();
+//
+//        Member actor = rq.getMember();
+//
+//        if (postService.actorCanModify(actor, post) == false) {
+//            throw new ActorCanNotModifyException();
+//        }
+//
+//        model.addAttribute("post", post);
+//
+//        return "post/detail";
+//    }
+//
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<Post> posts = postService.findAllForPrintByAuthorIdOrderByIdDesc(rq.getId());
+
+        model.addAttribute("posts", posts);
+
+        return "post/list";
     }
 
     @PreAuthorize("isAuthenticated()")

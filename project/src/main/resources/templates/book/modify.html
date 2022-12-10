@@ -15,10 +15,10 @@
             </h1>
 
             <script>
-                let BookCreate__submitDone = false;
+                let BookModify__submitDone = false;
 
-                function BookCreate__submit(form) {
-                    if (BookCreate__submitDone) {
+                function BookModify__submit(form) {
+                    if (BookModify__submitDone) {
                         return;
                     }
 
@@ -41,14 +41,15 @@
                     }
 
                     form.submit();
-                    SongCreate__submitDone = true;
+                    BookModify__submitDone = true;
                 }
             </script>
 
-
             <form th:action method="POST" class="flex flex-col gap-3"
                   onsubmit="BookModify__submit(this); return false;">
+
                 <div class="form-control">
+
                     <label class="label">
                         <span class="label-text">제목</span>
                     </label>
@@ -58,10 +59,10 @@
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">내용</span>
+                        <span class="label-text">가격</span>
                     </label>
-                    <textarea name="content" placeholder="#내용" class="textarea textarea-bordered min-h-[500px] h-[calc(100vh-400px)]"
-                              maxlength="10000" th:utext="${book.content}"></textarea>
+                    <input autofocus type="text" name="price" placeholder="가격" class="input input-bordered"
+                           maxlength="50" th:value="${book.price}">
                 </div>
 
                 <div class="grid grid-cols-2 mt-2 gap-2">

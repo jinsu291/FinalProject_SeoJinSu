@@ -26,6 +26,25 @@
 
                     <div th:text="${book.price}"></div>
                 </div>
+
+                <div>
+                    <a th:if="${@bookService.actorCanModify(@rq.member, book)}"
+                       th:href="@{|/book/${book.id}/modify|}"
+                       class="btn btn-secondary btn-sm btn-outline">
+                        <i class="fa-solid fa-eraser"></i>
+                        <span class="ml-1">수정</span>
+                    </a>
+
+                    <a th:if="${@bookService.actorCanRemove(@rq.member, book)}" href="javascript:;"
+                       onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit();"
+                       class="btn btn-secondary btn-sm btn-outline">
+                        <i class="fa-solid fa-trash"></i>
+                        <span class="ml-1">삭제</span>
+                    </a>
+                    <form th:action="@{|/book/${book.id}/remove|}" method="POST" hidden></form>
+
+                </div>
+
             </div>
         </div>
     </section>

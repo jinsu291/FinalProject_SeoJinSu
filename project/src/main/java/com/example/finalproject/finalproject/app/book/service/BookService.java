@@ -3,6 +3,7 @@ package com.example.finalproject.finalproject.app.book.service;
 import com.example.finalproject.finalproject.app.book.entity.Book;
 import com.example.finalproject.finalproject.app.book.repository.BookRepository;
 import com.example.finalproject.finalproject.app.member.entity.Member;
+import com.example.finalproject.finalproject.app.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,5 +58,19 @@ public class BookService {
 
     public List<Book> findAllByAuthorId(Long id) {
         return bookRepository.findAllByAuthorId(id);
+    }
+
+    public boolean actorCanRemove(Member author, Book book) {
+        return actorCanModify(author, book);
+    }
+
+    public void remove(Book book) {
+        bookRepository.delete(book);
+    }
+
+    public List<Book> findAllForPrintByAuthorIdOrderByIdDesc(long authorId) {
+        List<Book> books = bookRepository.findAllByAuthorIdOrderByIdDesc(authorId);
+
+        return books;
     }
 }

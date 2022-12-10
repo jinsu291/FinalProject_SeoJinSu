@@ -13,7 +13,7 @@
             <h1 class="font-bold text-lg">내 도서 목록</h1>
 
             <ul>
-                <li th:each="book : ${book}" class="flex items-center">
+                <li th:each="book : ${books}" class="flex items-center">
                     <a th:href="@{|/book/${book.id}|}">
                         <svg width="80" height="80" th:data-jdenticon-value="${book.jdenticon}"></svg>
                     </a>
@@ -26,7 +26,7 @@
                     </span>
                 </li>
             </ul>
-            <a class="btn btn-primary btn-sm" href="/product/create">상품등록</a>
+<!--            <a class="btn btn-primary btn-sm" href="/product/create">상품등록</a>-->
         </div>
     </section>
 

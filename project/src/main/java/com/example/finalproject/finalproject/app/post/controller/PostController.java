@@ -8,6 +8,7 @@ import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.post.form.PostForm;
 import com.example.finalproject.finalproject.app.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/post")
+@Slf4j
 public class PostController {
     private final PostService postService;
     private final Rq rq;
@@ -70,35 +72,9 @@ public class PostController {
         return Rq.redirectWithMsg("/post/" + post.getId(), "%d번 글이 수정되었습니다.".formatted(post.getId()));
     }
 
-//    @PreAuthorize("isAuthenticated()")
-//    @GetMapping("/{id}")
-//    public String detail(@PathVariable Long id, Model model) {
-//        Post post = postService.findForPrintById(id).get();
-//
-//        Member actor = rq.getMember();
-//
-//        if (postService.actorCanModify(actor, post) == false) {
-//            throw new ActorCanNotModifyException();
-//        }
-//
-//        model.addAttribute("post", post);
-//
-//        return "post/detail";
-//    }
-//
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/list")
-    public String list(Model model) {
-        List<Post> posts = postService.findAllForPrintByAuthorIdOrderByIdDesc(rq.getId());
-
-        model.addAttribute("posts", posts);
-
-        return "post/list";
-    }
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
-    public String getPostDetail(@PathVariable Long id, Model model) {
+    public String detail(@PathVariable Long id, Model model) {
         Post post = postService.findForPrintById(id).get();
 
         Member actor = rq.getMember();
@@ -108,7 +84,18 @@ public class PostController {
         }
 
         model.addAttribute("post", post);
-        return "post/write";
+
+        return "post/detail";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<Post> posts = postService.findAllForPrintByAuthorIdOrderByIdDesc(rq.getId());
+
+        model.addAttribute("posts", posts);
+
+        return "post/list";
     }
 
     @PreAuthorize("isAuthenticated()")

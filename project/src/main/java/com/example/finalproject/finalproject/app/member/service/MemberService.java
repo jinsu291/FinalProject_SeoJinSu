@@ -7,6 +7,8 @@ import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.exception.AlreadyJoinException;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.util.Ut;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,7 +63,7 @@ public class MemberService {
         return member;
     }
     @Transactional
-    public RsData<Map<String, Object>> addCash(Member member, long price, String eventType) {
+    public RsData<AddCashRsDataBody> addCash(Member member, long price, String eventType) {
         CashLog cashLog = cashService.addCash(member, price, eventType);
 
         long newRestCash = member.getRestCash() + cashLog.getPrice();
@@ -71,12 +73,17 @@ public class MemberService {
         return RsData.of(
                 "S-1",
                 "성공",
-                Ut.mapOf(
-                        "cashLog", cashLog,
-                        "newRestCash", newRestCash
-                )
+                new AddCashRsDataBody(cashLog, newRestCash)
         );
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class AddCashRsDataBody {
+        CashLog cashLog;
+        long newRestCash;
+    }
+
 
     public long getRestCash(Member member) {
         Member foundMember = findByUsername(member.getUsername()).get();

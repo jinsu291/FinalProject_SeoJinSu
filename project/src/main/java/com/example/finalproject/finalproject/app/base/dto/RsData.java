@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.app.base.dto;
 
+import com.example.finalproject.finalproject.util.Ut;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +35,13 @@ public class RsData<T> {
 
     public boolean isFail() {
         return isSuccess() == false;
+    }
+
+    public String addMsgToUrl(String url) {
+        if ( isFail() ) {
+            return Ut.url.modifyQueryParam(url, "errorMsg", getMsg());
+        }
+
+        return Ut.url.modifyQueryParam(url, "msg", getMsg());
     }
 }

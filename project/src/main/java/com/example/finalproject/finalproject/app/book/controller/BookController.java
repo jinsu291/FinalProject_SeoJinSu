@@ -30,13 +30,13 @@ public class BookController {
     private final Rq rq;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/write")
-    public String getWrite() {
-        return "book/write";
+    @GetMapping("/create")
+    public String getCreate() {
+        return "book/create";
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/write")
+    @PostMapping("/create")
     public String write(@Valid BookForm bookForm) {
         Member author = rq.getMember();
         Book book = bookService.create(author, bookForm.getSubject(), bookForm.getPrice());

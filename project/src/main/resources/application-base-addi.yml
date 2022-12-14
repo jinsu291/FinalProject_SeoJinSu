@@ -3,5 +3,5 @@ spring:
     password: pjnvqitpvrvaokev
 custom:
   tossPayments:
-    clientKey: NEED_TO_INPUT
-    secretKey: NEED_TO_INPUT
+    clientKey: test_ck_k6bJXmgo28e96A2Wevy8LAnGKWx4
+    secretKey: test_sk_JQbgMGZzorz5oyRvgkLVl5E1em4d

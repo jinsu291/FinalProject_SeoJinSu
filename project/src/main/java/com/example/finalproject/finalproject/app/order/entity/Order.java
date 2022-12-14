@@ -24,10 +24,6 @@ import static javax.persistence.FetchType.LAZY;
 @ToString(callSuper = true)
 @Table(name = "product_order")
 public class Order extends BaseEntity {
-    private LocalDateTime refundDate;
-    private LocalDateTime payDate;
-    private LocalDateTime cancelDate;
-
     @ManyToOne(fetch = LAZY)
     private Member buyer;
 
@@ -57,15 +53,7 @@ public class Order extends BaseEntity {
         return payPrice;
     }
 
-    public void setCancelDone() {
-        cancelDate = LocalDateTime.now();
-
-        isCanceled = true;
-    }
-
     public void setPaymentDone() {
-        payDate = LocalDateTime.now();
-
         for (OrderItem orderItem : orderItems) {
             orderItem.setPaymentDone();
         }
@@ -74,8 +62,6 @@ public class Order extends BaseEntity {
     }
 
     public void setRefundDone() {
-        refundDate = LocalDateTime.now();
-
         for (OrderItem orderItem : orderItems) {
             orderItem.setRefundDone();
         }

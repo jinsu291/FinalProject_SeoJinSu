@@ -1,5 +1,7 @@
 package com.example.finalproject.finalproject.app.order.controller;
 
+import com.example.finalproject.finalproject.app.base.dto.RsData;
+import com.example.finalproject.finalproject.app.base.rq.Rq;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.entity.Order;
@@ -12,6 +14,7 @@ import com.example.finalproject.finalproject.app.security.dto.MemberContext;
 import com.example.finalproject.finalproject.util.Ut;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,6 +40,7 @@ public class OrderController {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
     private final MemberService memberService;
+    private final Rq rq;
 
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
@@ -59,6 +64,10 @@ public class OrderController {
     @PreAuthorize("isAuthenticated()")
     public String showDetail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
         Order order = orderService.findForPrintById(id).get();
+
+        if (order == null) {
+            return rq.redirectToBackWithMsg("주문을 찾을 수 없습니다.");
+        }
 
         Member actor = memberContext.getMember();
 
@@ -87,7 +96,8 @@ public class OrderController {
         });
     }
 
-    private final String SECRET_KEY = "test_sk_JQbgMGZzorz5oyRvgkLVl5E1em4d";
+    @Value("${custom.tossPayments.secretKey}")
+    private String SECRET_KEY;
 
     @RequestMapping("/{id}/success")
     public String confirmPayment(
@@ -103,7 +113,7 @@ public class OrderController {
 
         long orderIdInputed = Long.parseLong(orderId.split("__")[1]);
 
-        if ( id != orderIdInputed ) {
+        if (id != orderIdInputed) {
             throw new OrderIdNotMatchedException();
         }
 
@@ -149,13 +159,36 @@ public class OrderController {
         return "order/fail";
     }
 
-    @PostMapping("/makeOrder")
+    @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public String makeOrder(@AuthenticationPrincipal MemberContext memberContext) {
+    public String create(@AuthenticationPrincipal MemberContext memberContext) {
         Member member = memberContext.getMember();
         Order order = orderService.createFromCart(member);
-        String redirect = "redirect:/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
 
-        return redirect;
+        return Rq.redirectWithMsg(
+                "/order/%d".formatted(order.getId()),
+                "%d번 주문이 생성되었습니다.".formatted(order.getId())
+        );
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("isAuthenticated()")
+    public String showList(Model model) {
+        List<Order> orders = orderService.findAllByBuyerId(rq.getId());
+
+        model.addAttribute("orders", orders);
+        return "order/list";
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    public String cancel(@PathVariable Long orderId) {
+        RsData rsData = orderService.cancel(orderId, rq.getMember());
+
+        if (rsData.isFail()) {
+            return Rq.redirectWithErrorMsg("/order/%d".formatted(orderId), rsData);
+        }
+
+        return Rq.redirectWithMsg("/order/%d".formatted(orderId), rsData);
     }
 }

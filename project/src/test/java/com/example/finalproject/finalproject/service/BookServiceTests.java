@@ -1,6 +1,7 @@
 package com.example.finalproject.finalproject.service;
 
 import com.example.finalproject.finalproject.app.book.entity.Book;
+import com.example.finalproject.finalproject.app.book.service.BookService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.app.product.entity.Product;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 public class BookServiceTests {
     @Autowired
-    private ProductService productService;
+    private BookService bookService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -29,10 +30,10 @@ public class BookServiceTests {
     void t1() {
         Member author = memberRepository.findByUsername("user1").get();
 
-//        Product product3 = productService.create(author, "책 5", 70_000);
-//        Product product4 = productService.create(author, "책 7", 90_000);
-//
-//        assertThat(product3).isNotNull();
-//        assertThat(product4).isNotNull();
+        Book book = bookService.create(author, "제목", 3000);
+
+        assertThat(book).isNotNull();
+        assertThat(book.getSubject()).isEqualTo("제목");
+        assertThat(book.getPrice()).isEqualTo(3000);
     }
 }

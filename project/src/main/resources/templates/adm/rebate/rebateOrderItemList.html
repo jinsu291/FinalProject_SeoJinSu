@@ -34,7 +34,8 @@
                     <tbody>
                     <tr th:each="item : ${items}">
                         <td>
-                            <input onchange="OrderItemCheckbox__changed();" th:if="${item.rebateAvailable}" type="checkbox" class="orderItemCheckbox checkbox">
+                            <input onchange="OrderItemCheckbox__changed();" th:if="${item.rebateAvailable}"
+                                   type="checkbox" class="orderItemCheckbox checkbox" th:value="${item.orderItem.id}">
                         </td>
                         <td th:text="${item.orderItem.id}"></td>
                         <td th:text="${item.payDate}"></td>

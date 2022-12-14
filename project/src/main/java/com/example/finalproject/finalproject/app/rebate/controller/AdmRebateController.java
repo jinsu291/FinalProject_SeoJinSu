@@ -17,7 +17,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/adm/rebate")
 @RequiredArgsConstructor
-@Slf4j
 public class AdmRebateController {
     private final RebateService rebateService;
 
@@ -29,13 +28,13 @@ public class AdmRebateController {
 
     @PostMapping("/makeData")
     @PreAuthorize("hasAuthority('ADMIN')")
-    @ResponseBody
     public String makeData(String yearMonth) {
         RsData makeDateRsData = rebateService.makeDate(yearMonth);
 
         String redirect = makeDateRsData.addMsgToUrl("redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth);
 
-        return redirect;    }
+        return redirect;
+    }
 
     @GetMapping("/rebateOrderItemList")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -59,7 +58,6 @@ public class AdmRebateController {
         RsData rebateRsData = rebateService.rebate(orderItemId);
 
         String referer = req.getHeader("Referer");
-        log.debug("referer : " + referer);
         String yearMonth = Ut.url.getQueryParamValue(referer, "yearMonth", "");
 
         String redirect = "redirect:/adm/rebate/rebateOrderItemList?yearMonth=" + yearMonth;

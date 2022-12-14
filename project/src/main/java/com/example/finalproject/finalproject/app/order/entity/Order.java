@@ -77,14 +77,14 @@ public class Order extends BaseEntity {
         return payPrice;
     }
 
-    public String makeName() {
+    public void makeName() {
         String name = orderItems.get(0).getProduct().getSubject();
 
-        if ( orderItems.size() > 1 ) {
+        if (orderItems.size() > 1) {
             name += " 외 %d권".formatted(orderItems.size() - 1);
         }
 
-        return name;
+        this.name = name;
     }
 
     public boolean isPayable() {

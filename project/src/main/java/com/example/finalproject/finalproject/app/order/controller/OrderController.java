@@ -40,7 +40,6 @@ public class OrderController {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
     private final MemberService memberService;
-    private final Rq rq;
 
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
@@ -65,10 +64,6 @@ public class OrderController {
     public String showDetail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
         Order order = orderService.findForPrintById(id).get();
 
-        if (order == null) {
-            return rq.redirectToBackWithMsg("주문을 찾을 수 없습니다.");
-        }
-
         Member actor = memberContext.getMember();
 
         long restCash = memberService.getRestCash(actor);
@@ -79,6 +74,7 @@ public class OrderController {
 
         model.addAttribute("order", order);
         model.addAttribute("actorRestCash", restCash);
+
         return "order/detail";
     }
 
@@ -97,7 +93,6 @@ public class OrderController {
     }
 
     private final String SECRET_KEY = "test_sk_JQbgMGZzorz5oyRvgkLVl5E1em4d";
-
 
     @RequestMapping("/{id}/success")
     public String confirmPayment(

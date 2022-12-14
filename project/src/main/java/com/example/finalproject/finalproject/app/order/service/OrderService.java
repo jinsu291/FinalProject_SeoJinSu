@@ -121,6 +121,7 @@ public class OrderService {
         if ( useRestCash > 0 ) {
             memberService.addCash(buyer, useRestCash * -1, "주문__%d__사용__예치금".formatted(order.getId()));
         }
+
         order.setPaymentDone();
         orderRepository.save(order);
     }

@@ -83,4 +83,8 @@ public class MemberService {
 
         return foundMember.getRestCash();
     }
+
+    public Optional<Member> findById(long id) {
+        return memberRepository.findById(id);
+    }
 }

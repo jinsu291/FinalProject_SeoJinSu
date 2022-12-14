@@ -31,13 +31,13 @@ public class BookController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String getCreate() {
+    public String showCreate() {
         return "book/create";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String write(@Valid BookForm bookForm) {
+    public String create(@Valid BookForm bookForm) {
         Member author = rq.getMember();
         Book book = bookService.create(author, bookForm.getSubject(), bookForm.getPrice());
         return Rq.redirectWithMsg("/book/" + book.getId(), "%d번 글이 생성되었습니다.".formatted(book.getId()));

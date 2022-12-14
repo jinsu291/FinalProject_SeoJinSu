@@ -1,5 +1,8 @@
 package com.example.finalproject.finalproject.controller;
 
+import com.example.finalproject.finalproject.app.book.controller.BookController;
+import com.example.finalproject.finalproject.app.book.entity.Book;
+import com.example.finalproject.finalproject.app.book.service.BookService;
 import com.example.finalproject.finalproject.app.product.controller.ProductController;
 import com.example.finalproject.finalproject.app.product.entity.Product;
 import com.example.finalproject.finalproject.app.product.service.ProductService;
@@ -31,34 +34,34 @@ public class BookControllerTests {
     @Autowired
     private MockMvc mvc;
     @Autowired
-    private ProductService productService;
+    private BookService bookService;
 
     @Test
-    @DisplayName("상품 업로드 폼")
+    @DisplayName("도서 업로드 폼")
     @WithUserDetails("user1")
     void t1() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
                 .perform(
-                        get("/product/create")
+                        get("/book/create")
                 )
                 .andDo(print());
 
         // THEN
         resultActions
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(handler().handlerType(ProductController.class))
+                .andExpect(handler().handlerType(BookController.class))
                 .andExpect(handler().methodName("showCreate"))
-                .andExpect(content().string(containsString("상품 업로드")));
+                .andExpect(content().string(containsString("도서 업로드")));
     }
 
     @Test
-    @DisplayName("상품 업로드")
+    @DisplayName("도서 업로드")
     @WithUserDetails("user1")
     void t2() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(post("/product/create")
+                .perform(post("/book/create")
                         .param("subject", "제목")
                         .param("Price", "1800")
                         .with(csrf())
@@ -68,11 +71,57 @@ public class BookControllerTests {
         // THEN
         resultActions
                 .andExpect(status().is3xxRedirection())
-                .andExpect(handler().handlerType(ProductController.class))
+                .andExpect(handler().handlerType(BookController.class))
                 .andExpect(handler().methodName("create"))
-                .andExpect(redirectedUrlPattern("/product/**"));
+                .andExpect(redirectedUrlPattern("/book/**"));
 
-        Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/product/", "").split("\\?", 2)[0]);
-        assertThat(productService.findById(songId).isPresent()).isTrue();
+        Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/book/", "").split("\\?", 2)[0]);
+        assertThat(bookService.findById(songId).isPresent()).isTrue();
+    }
+    @Test
+    @DisplayName("도서 수정 폼")
+    @WithUserDetails("user1")
+    void t3() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(get("/book/1/modify"))
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(handler().handlerType(BookController.class))
+                .andExpect(handler().methodName("showModify"))
+                .andExpect(content().string(containsString("도서 수정")));
+    }
+
+    @Test
+    @DisplayName("도서 수정")
+    @WithUserDetails("user1")
+    void t4() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(post("/book/1/modify")
+                        .param("subject", "제목1 NEW")
+                        .param("Price", "1900")
+                        .with(csrf())
+                )
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(status().is3xxRedirection())
+                .andExpect(handler().handlerType(BookController.class))
+                .andExpect(handler().methodName("modify"))
+                .andExpect(redirectedUrlPattern("/book/**"));
+
+        Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/book/", "").split("\\?")[0]);
+
+        Book book = bookService.findById(songId).get();
+
+        assertThat(book).isNotNull();
+        assertThat(book.getSubject()).isEqualTo("제목1 NEW");
+        assertThat(book.getPrice()).isEqualTo(1900);
+
     }
 }

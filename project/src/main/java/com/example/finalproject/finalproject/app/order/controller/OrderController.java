@@ -96,8 +96,8 @@ public class OrderController {
         });
     }
 
-    @Value("${custom.tossPayments.secretKey}")
-    private String SECRET_KEY;
+    private final String SECRET_KEY = "test_sk_JQbgMGZzorz5oyRvgkLVl5E1em4d";
+
 
     @RequestMapping("/{id}/success")
     public String confirmPayment(
@@ -159,36 +159,13 @@ public class OrderController {
         return "order/fail";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/makeOrder")
     @PreAuthorize("isAuthenticated()")
-    public String create(@AuthenticationPrincipal MemberContext memberContext) {
+    public String makeOrder(@AuthenticationPrincipal MemberContext memberContext) {
         Member member = memberContext.getMember();
         Order order = orderService.createFromCart(member);
+        String redirect = "redirect:/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
 
-        return Rq.redirectWithMsg(
-                "/order/%d".formatted(order.getId()),
-                "%d번 주문이 생성되었습니다.".formatted(order.getId())
-        );
-    }
-
-    @GetMapping("/list")
-    @PreAuthorize("isAuthenticated()")
-    public String showList(Model model) {
-        List<Order> orders = orderService.findAllByBuyerId(rq.getId());
-
-        model.addAttribute("orders", orders);
-        return "order/list";
-    }
-
-    @PostMapping("/{orderId}/cancel")
-    @PreAuthorize("isAuthenticated()")
-    public String cancel(@PathVariable Long orderId) {
-        RsData rsData = orderService.cancel(orderId, rq.getMember());
-
-        if (rsData.isFail()) {
-            return Rq.redirectWithErrorMsg("/order/%d".formatted(orderId), rsData);
-        }
-
-        return Rq.redirectWithMsg("/order/%d".formatted(orderId), rsData);
+        return redirect;
     }
 }

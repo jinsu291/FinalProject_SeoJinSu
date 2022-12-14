@@ -133,43 +133,4 @@ public class OrderService {
     public List<OrderItem> findAllByPayDateBetweenOrderByIdAsc(LocalDateTime fromDate, LocalDateTime toDate) {
         return orderItemRepository.findAllByPayDateBetween(fromDate, toDate);
     }
-
-    public List<Order> findAllByBuyerId(long buyerId) {
-        return orderRepository.findAllByBuyerIdOrderByIdDesc(buyerId);
-    }
-
-    @Transactional
-    public RsData cancel(Order order, Member actor) {
-        RsData actorCanCancelRsData = actorCanCancel(actor, order);
-
-        if (actorCanCancelRsData.isFail()) {
-            return actorCanCancelRsData;
-        }
-
-        order.setCanceled(true);
-
-        return RsData.of("S-1", "취소되었습니다.");
-    }
-
-    @Transactional
-    public RsData cancel(Long orderId, Member actor) {
-        Order order = findById(orderId).get();
-        return cancel(order, actor);
-    }
-
-    public RsData actorCanCancel(Member actor, Order order) {
-        if (order.isPaid()) {
-            return RsData.of("F-3", "이미 결제처리 되었습니다.");
-        }
-
-        if (order.isCanceled()) {
-            return RsData.of("F-1", "이미 취소되었습니다.");
-        }
-
-        if (actor.getId().equals(order.getBuyer().getId()) == false) {
-            return RsData.of("F-2", "권한이 없습니다.");
-        }
-
-        return RsData.of("S-1", "취소할 수 있습니다.");
-    }
 }

@@ -23,9 +23,9 @@ public class ProductService {
     @Transactional
     public Product create(Book book, String subject, int price) {
         Product product = Product.builder()
-                .author(book.getAuthor())
-                .book(book)
                 .subject(subject)
+                .book(book)
+                .author(book.getAuthor())
                 .price(price)
                 .build();
 

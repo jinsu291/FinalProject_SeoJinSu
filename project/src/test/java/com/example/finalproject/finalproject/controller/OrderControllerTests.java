@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.controller;
 
+import com.example.finalproject.finalproject.app.book.service.BookService;
 import com.example.finalproject.finalproject.app.order.controller.OrderController;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
@@ -27,11 +28,11 @@ public class OrderControllerTests {
     @Autowired
     private MockMvc mvc;
     @Autowired
-    private OrderService orderService;
+    private BookService bookService;
 
     @Test
     @DisplayName("주문 상세화면")
-    @WithUserDetails("user1")
+    @WithUserDetails("user2")
     void t1() throws Exception {
         // WHEN
         ResultActions resultActions = mvc

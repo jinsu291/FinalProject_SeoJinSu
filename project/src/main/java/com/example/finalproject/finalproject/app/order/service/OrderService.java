@@ -1,6 +1,5 @@
 package com.example.finalproject.finalproject.app.order.service;
 
-import com.example.finalproject.finalproject.app.base.dto.RsData;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;

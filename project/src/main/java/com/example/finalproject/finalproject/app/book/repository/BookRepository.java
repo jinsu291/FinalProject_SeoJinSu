@@ -1,7 +1,6 @@
 package com.example.finalproject.finalproject.app.book.repository;
 
 import com.example.finalproject.finalproject.app.book.entity.Book;
-import com.example.finalproject.finalproject.app.post.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

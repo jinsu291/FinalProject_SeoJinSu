@@ -2,7 +2,6 @@ package com.example.finalproject.finalproject.app.base.initData;
 
 import com.example.finalproject.finalproject.app.book.entity.Book;
 import com.example.finalproject.finalproject.app.book.service.BookService;
-import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
@@ -54,11 +53,6 @@ public interface InitDataBefore {
         Product product2 = productService.create(book3, "책 3", 50_000);
         Product product3 = productService.create(book5, "책 5", 70_000);
         Product product4 = productService.create(book7, "책 7", 90_000);
-
-        CartItem cartItem1 = cartService.addItem(member1, product1);
-        CartItem cartItem2 = cartService.addItem(member1, product2);
-        CartItem cartItem3 = cartService.addItem(member2, product3);
-        CartItem cartItem4 = cartService.addItem(member2, product4);
 
         memberService.addCash(member1, 10_000, "충전__무통장입금");
         memberService.addCash(member1, 20_000, "충전__무통장입금");

@@ -3,7 +3,6 @@ package com.example.finalproject.finalproject.app.book.service;
 import com.example.finalproject.finalproject.app.book.entity.Book;
 import com.example.finalproject.finalproject.app.book.repository.BookRepository;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.app.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

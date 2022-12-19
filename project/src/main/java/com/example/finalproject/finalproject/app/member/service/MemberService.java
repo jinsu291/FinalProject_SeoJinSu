@@ -6,10 +6,14 @@ import com.example.finalproject.finalproject.app.cash.service.CashService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.exception.AlreadyJoinException;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
+import com.example.finalproject.finalproject.app.security.dto.MemberContext;
 import com.example.finalproject.finalproject.util.Ut;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +79,49 @@ public class MemberService {
                 "성공",
                 new AddCashRsDataBody(cashLog, newRestCash)
         );
+    }
+
+    @Transactional
+    public RsData modifyPassword(Member member, String password, String oldPassword) {
+        Optional<Member> opMember = memberRepository.findById(member.getId());
+
+        if (passwordEncoder.matches(oldPassword, opMember.get().getPassword()) == false) {
+            return RsData.of("F-1", "기존 비밀번호가 일치하지 않습니다.");
+        }
+
+        opMember.get().setPassword(passwordEncoder.encode(password));
+
+        return RsData.of("S-1", "비밀번호가 변경되었습니다.");
+    }
+
+    @Transactional
+    public RsData beAuthor(Member member, String nickname) {
+        Optional<Member> opMember = memberRepository.findByNickname(nickname);
+
+        if (opMember.isPresent()) {
+            return RsData.of("F-1", "해당 필명은 이미 사용중입니다.");
+        }
+
+        opMember = memberRepository.findById(member.getId());
+
+        opMember.get().setNickname(nickname);
+        forceAuthentication(opMember.get());
+
+        return RsData.of("S-1", "해당 필명으로 활동을 시작합니다.");
+    }
+
+    private void forceAuthentication(Member member) {
+        MemberContext memberContext = new MemberContext(member, member.genAuthorities());
+
+        UsernamePasswordAuthenticationToken authentication =
+                UsernamePasswordAuthenticationToken.authenticated(
+                        memberContext,
+                        member.getPassword(),
+                        memberContext.getAuthorities()
+                );
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
     }
 
     @Data

@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.app.member.controller;
 
+import com.example.finalproject.finalproject.app.base.dto.RsData;
 import com.example.finalproject.finalproject.app.base.rq.Rq;
 import com.example.finalproject.finalproject.app.member.dto.PostFindUserNameReq;
 import com.example.finalproject.finalproject.app.member.dto.PostProfileReq;
@@ -94,5 +95,44 @@ public class MemberController {
         }
 
         return "redirect:/member/findUsername?msg=" + Ut.url.encode("해당 이메일로 가입된 아이디는 "+member.get().getUsername()+" 입니다.");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modifyPassword")
+    public String showModifyPassword() {
+        return "member/modifyPassword";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modifyPassword")
+    public String modifyPassword(String oldPassword, String password) {
+        Member member = rq.getMember();
+        RsData rsData = memberService.modifyPassword(member, password, oldPassword);
+
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData.getMsg());
+        }
+
+        return Rq.redirectWithMsg("/", rsData);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/beAuthor")
+    public String showBeAuthor() {
+        return "member/beAuthor";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/beAuthor")
+    public String beAuthor(String nickname) {
+        Member member = rq.getMember();
+
+        RsData rsData = memberService.beAuthor(member, nickname);
+
+        if (rsData.isFail()) {
+            return Rq.redirectWithMsg("/member/beAuthor", rsData);
+        }
+
+        return Rq.redirectWithMsg("/", rsData);
     }
 }

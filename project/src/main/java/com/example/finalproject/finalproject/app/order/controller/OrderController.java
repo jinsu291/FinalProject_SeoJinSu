@@ -40,6 +40,7 @@ public class OrderController {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper;
     private final MemberService memberService;
+    private final Rq rq;
 
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
@@ -162,5 +163,14 @@ public class OrderController {
         String redirect = "redirect:/order/%d".formatted(order.getId()) + "?msg=" + Ut.url.encode("%d번 주문이 생성되었습니다.".formatted(order.getId()));
 
         return redirect;
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("isAuthenticated()")
+    public String showList(Model model) {
+        List<Order> orders = orderService.findAllByBuyerId(rq.getId());
+
+        model.addAttribute("orders", orders);
+        return "order/list";
     }
 }

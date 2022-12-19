@@ -1,5 +1,6 @@
 package com.example.finalproject.finalproject.app.member.controller;
 
+import com.example.finalproject.finalproject.app.base.rq.Rq;
 import com.example.finalproject.finalproject.app.member.dto.PostFindUserNameReq;
 import com.example.finalproject.finalproject.app.member.dto.PostProfileReq;
 import com.example.finalproject.finalproject.app.member.entity.Member;
@@ -26,6 +27,7 @@ import java.util.Optional;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+    private final Rq rq;
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
@@ -46,8 +48,9 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
-    public String showProfile(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        model.addAttribute("model",memberContext);
+    public String showProfile(Model model) {
+        long actorRestCash = memberService.getRestCash(rq.getMember());
+        model.addAttribute("actorRestCash", actorRestCash);
         return "member/profile";
     }
 

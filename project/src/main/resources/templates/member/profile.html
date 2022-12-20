@@ -18,48 +18,46 @@
             <div class="flex flex-col gap-3">
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">아이디</span>
+                        <span>아이디</span>
                     </label>
-                    <div class="badge badge-primary" th:text="${@rq.member.username}"></div>
+                    <div th:text="${@rq.member.username}"></div>
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">가입날짜</span>
+                        <span>가입날짜</span>
                     </label>
-                    <div class="badge badge-primary"
-                         th:text="${#temporals.format(@rq.member.createDate, 'yy-MM-dd HH:mm')}"></div>
+                    <div th:text="${#temporals.format(@rq.member.createDate, 'yy-MM-dd HH:mm')}"></div>
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">예치금</span>
+                        <span>예치금</span>
                     </label>
-                    <div class="badge badge-primary">
-                        보유 예치금 : [[${actorRestCash}]]
+                    <div>
+                        [[${actorRestCash}]]
                     </div>
 
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">이메일</span>
+                        <span>이메일</span>
                     </label>
-                    <div class="badge badge-primary" th:text="${@rq.member.email}"></div>
+                    <div th:text="${@rq.member.email}"></div>
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">필명</span>
+                        <span>필명</span>
                     </label>
-                    <div class="badge badge-primary"
-                         th:text="${@rq.member.nickname != null ? @rq.member.nickname : '-'}"></div>
+                    <div th:text="${@rq.member.nickname != null ? @rq.member.nickname : '-'}"></div>
                 </div>
 
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">프로필이미지</span>
-                    </label>
+<!--                <div class="form-control">-->
+<!--                    <label class="label">-->
+<!--                        <span class="label-text">프로필이미지</span>-->
+<!--                    </label>-->
 
                 <div class="grid grid-cols-2 mt-2 gap-2">
                     <a href="/member/modifyPassword" class="btn btn-secondary btn-outline">비밀번호 변경</a>

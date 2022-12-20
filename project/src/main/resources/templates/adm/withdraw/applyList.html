@@ -36,7 +36,7 @@
                             <td th:text="${item.applicant.username}"></td>
                             <td th:text="${item.bankName}"></td>
                             <td th:text="${item.bankAccountNo}"></td>
-                            <td th:text="|￦ ${@ut.nf(item.price)}|"></td>
+                            <td th:text="|￦ ${item.price}|"></td>
                             <td th:text="${#temporals.format(item.createDate, 'yy-MM-dd HH:mm')}"></td>
                             <td>
                                 <span th:if="${item.applyDoneAvailable == false}">O</span>

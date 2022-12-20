@@ -21,11 +21,11 @@
                 </div>
 
                 <div class="flex">
-                    <svg width="20" height="20" th:data-jdenticon-value="${product.author.jdenticon}"></svg>
+<!--                    <svg width="20" height="20" th:data-jdenticon-value="${product.author.jdenticon}"></svg>-->
                     <div th:text="${product.author.name}"></div>
                 </div>
 
-                <div th:text="|￦ ${@ut.nf(product.salePrice)}|"></div>
+<!--                <div th:text="|￦ ${@ut.nf(product.salePrice)}|"></div>-->
 
                 <div class="flex flex-wrap gap-3">
                     <div class="flex flex-wrap gap-3">
@@ -48,8 +48,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div th:utext="${product.extra_productTagLinks}"></div>
 
                 <div>
                     <a th:if="${@productService.actorCanModify(@rq.member, product)}"

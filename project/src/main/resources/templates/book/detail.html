@@ -15,6 +15,28 @@
             <div class="flex flex-col gap-3 mt-3">
                 <svg width="80" height="80" th:data-jdenticon-value="${book.jdenticon}"></svg>
 
+                <div class="flex flex-wrap gap-3">
+                    <div class="flex flex-wrap gap-3">
+                        <div>
+                            <div class="badge">
+                                <i class="fa-solid fa-pen"></i>
+                                <span class="ml-1">작성</span>
+                                <span class="ml-1"
+                                      th:text="${#temporals.format(book.createDate, 'yy-MM-dd')}"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="badge badge-outline">
+                                <i class="fa-solid fa-eraser"></i>
+                                <span class="ml-1">수정</span>
+                                <span class="ml-1"
+                                      th:text="${#temporals.format(book.modifyDate, 'yy-MM-dd')}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <div class="badge badge-primary">제목</div>
 
@@ -26,6 +48,8 @@
 
                     <div th:text="${book.price}"></div>
                 </div>
+
+
 
                 <div>
                     <a th:if="${@bookService.actorCanModify(@rq.member, book)}"

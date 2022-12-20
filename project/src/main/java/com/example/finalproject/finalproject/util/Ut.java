@@ -18,6 +18,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Ut {
+
+    public static String nf(long number) {
+        return String.format("%,d", (int) number);
+    }
+
     public static class date {
         public static int getEndDayOf(int year, int month) {
             String yearMonth = year + "-" + "%02d".formatted(month);

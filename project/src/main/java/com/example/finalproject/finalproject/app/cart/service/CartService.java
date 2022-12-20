@@ -74,4 +74,8 @@ public class CartService {
     public boolean actorCanDelete(Member buyer, CartItem cartItem) {
         return buyer.getId().equals(cartItem.getBuyer().getId());
     }
+
+    public List<CartItem> getCartItemsByBuyerIdProductIdIn(long buyerId, long[] productIds) {
+        return cartItemRepository.findAllByBuyerIdAndProductIdIn(buyerId, productIds);
+    }
 }

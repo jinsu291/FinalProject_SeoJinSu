@@ -62,29 +62,25 @@
                                         <i class="fa-solid fa-eye"></i>
                                         <span class="ml-2">보기</span>
                                     </a>
-                                </div>
+                                <!--   -->
+                                <a th:if="${!book.extra_actor_hasInCart}" href="javascript:;" onclick="$(this).next().submit();" class="btn btn-sm btn-outline">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                    <span class="ml-2">장바구니</span>
+                                </a>
+                                <form th:action="@{|/cart/addItem/${book.id}|}" method="POST" hidden></form>
+
+                                <a th:if="${book.extra_actor_hasInCart}" href="javascript:;" onclick="$(this).next().submit();" class="btn btn-sm">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                    <span class="ml-2">장바구니</span>
+                                </a>
+                                <form th:action="@{|/cart/removeItem/${book.id}|}" method="POST" hidden></form>
+                                <!--   -->
+                            </div>
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
-
-
-<!--            <ul>-->
-<!--                <li th:each="book : ${books}" class="flex items-center">-->
-<!--                    <a th:href="@{|/book/${book.id}|}">-->
-<!--                        <svg width="80" height="80" th:data-jdenticon-value="${book.jdenticon}"></svg>-->
-<!--                    </a>-->
-
-<!--                    <a th:href="@{|/book/${book.id}|}">-->
-<!--                        <span-->
-<!--                                th:text="${book.subject}"></span>-->
-<!--                    </a>-->
-
-<!--                    </span>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--&lt;!&ndash;            <a class="btn btn-primary btn-sm" href="/product/create">상품등록</a>&ndash;&gt;-->
         </div>
     </section>
 

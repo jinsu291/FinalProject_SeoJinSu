@@ -1,8 +1,10 @@
 package com.example.finalproject.finalproject.app.cart.controller;
 
+import com.example.finalproject.finalproject.app.base.rq.Rq;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
+import com.example.finalproject.finalproject.app.product.entity.Product;
 import com.example.finalproject.finalproject.app.security.dto.MemberContext;
 import com.example.finalproject.finalproject.util.Ut;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +25,7 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
+    private final Rq rq;
 
     @GetMapping("/items")
     @PreAuthorize("isAuthenticated()")
@@ -33,6 +37,22 @@ public class CartController {
         model.addAttribute("items", items);
 
         return "cart/items";
+    }
+
+    @PostMapping("/addItem/{productId}")
+    @PreAuthorize("isAuthenticated()")
+    public String addItem(@PathVariable long productId) {
+        cartService.addItem(rq.getMember(), new Product((productId)));
+
+        return rq.redirectToBackWithMsg("장바구니에 추가되었습니다.");
+    }
+
+    @PostMapping("/removeItem/{productId}")
+    @PreAuthorize("isAuthenticated()")
+    public String removeItem(@PathVariable long productId) {
+        cartService.removeItem(rq.getMember(), new Product((productId)));
+
+        return rq.redirectToBackWithMsg("장바구니에서 삭제되었습니다.");
     }
 
     @PostMapping("/removeItems")

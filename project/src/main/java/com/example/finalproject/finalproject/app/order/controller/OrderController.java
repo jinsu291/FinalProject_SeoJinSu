@@ -63,7 +63,11 @@ public class OrderController {
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public String showDetail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
-        Order order = orderService.findForPrintById(id).get();
+        Order order = orderService.findForPrintById(id).orElse(null);
+
+        if (order == null) {
+            return rq.redirectToBackWithMsg("주문을 찾을 수 없습니다.");
+        }
 
         Member actor = memberContext.getMember();
 
@@ -173,4 +177,6 @@ public class OrderController {
         model.addAttribute("orders", orders);
         return "order/list";
     }
+
+
 }

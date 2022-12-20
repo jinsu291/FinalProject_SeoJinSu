@@ -124,6 +124,13 @@
                     주문 목록
                 </span>
             </a>
+
+            <a href="/withdraw/apply" class="inline-flex" th:if="${@rq.logined}">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <span class="ml-[2px] hidden lg:block">
+                    출금 신청
+                </span>
+            </a>
         </div>
     </div>
 </header>

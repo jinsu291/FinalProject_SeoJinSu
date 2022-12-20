@@ -31,12 +31,10 @@
                                         <span th:text="${book.subject}"></span>
                                     </a>
                                     <div class="flex">
-<!--                                        <svg width="20" height="20" th:data-jdenticon-value="${book.author.jdenticon}"></svg>-->
                                         <div th:text="${book.author.name}"></div>
                                     </div>
                                 </h2>
-<!--                                <div th:text="|￦ ${@ut.nf(book.salePrice)}|"></div>-->
-<!--                                <div th:utext="${book.extra_productTagLinks}"></div>-->
+                                <div th:text="|￦ ${book.price}|"></div>
                                 <div class="flex justify-end">
                                     <div class="badge badge-outline">
                                         <i class="fa-solid fa-pen"></i>
@@ -48,7 +46,7 @@
                                     <div class="badge">
                                         <i class="fa-solid fa-eraser"></i>
                                         <span class="ml-2"
-                                              th:text="${#temporals.format(product.modifyDate, 'yy-MM-dd')}"></span>lear
+                                              th:text="${#temporals.format(book.modifyDate, 'yy-MM-dd')}"></span>lear
                                     </div>
                                 </div>
 <!--                                <div class="card-actions justify-end">-->

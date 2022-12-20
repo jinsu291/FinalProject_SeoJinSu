@@ -47,7 +47,6 @@ public class BookController {
     @GetMapping("/{id}/modify")
     public String showModify(@PathVariable long id, Model model) {
         Book book = bookService.findForPrintById(id).get();
-
         Member actor = rq.getMember();
 
         if (bookService.actorCanModify(actor, book) == false) {

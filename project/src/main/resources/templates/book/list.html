@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout/layout.html}">
 
 <head>
-    <title>내 도서 목록</title>
+    <title>도서 목록</title>
 </head>
 
 <body>
@@ -10,23 +10,83 @@
     <section class="section section-write container mx-auto">
 
         <div class="px-2 pt-4">
-            <h1 class="font-bold text-lg">내 도서 목록</h1>
+            <h1 class="font-bold text-lg">
+                <i class="fa-solid fa-book"></i>
+                도서 목록
+            </h1>
 
-            <ul>
-                <li th:each="book : ${books}" class="flex items-center">
-                    <a th:href="@{|/book/${book.id}|}">
-                        <svg width="80" height="80" th:data-jdenticon-value="${book.jdenticon}"></svg>
-                    </a>
+            <div class="mt-2">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+                    <li th:each="book : ${books}">
+                        <div class="card bg-base-100 shadow-xl">
+                            <a th:href="@{|/book/${book.id}|}" class="block">
+                                <figure>
+                                    <svg width="200" height="200" th:data-jdenticon-value="${book.jdenticon}"></svg>
+                                </figure>
+                            </a>
+                            <div class="card-body">
+                                <h2 class="card-title flex flex-wrap">
+                                    <a th:href="@{|/book/${book.id}|}" class="mr-auto">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span th:text="${book.subject}"></span>
+                                    </a>
+                                    <div class="flex">
+<!--                                        <svg width="20" height="20" th:data-jdenticon-value="${book.author.jdenticon}"></svg>-->
+                                        <div th:text="${book.author.name}"></div>
+                                    </div>
+                                </h2>
+<!--                                <div th:text="|￦ ${@ut.nf(book.salePrice)}|"></div>-->
+<!--                                <div th:utext="${book.extra_productTagLinks}"></div>-->
+                                <div class="flex justify-end">
+                                    <div class="badge badge-outline">
+                                        <i class="fa-solid fa-pen"></i>
+                                        <span class="ml-2"
+                                              th:text="${#temporals.format(book.createDate, 'yy-MM-dd')}"></span>
+                                    </div>
+                                </div>
+                                <div th:if="${book.createDate != book.modifyDate}" class="flex justify-end">
+                                    <div class="badge">
+                                        <i class="fa-solid fa-eraser"></i>
+                                        <span class="ml-2"
+                                              th:text="${#temporals.format(product.modifyDate, 'yy-MM-dd')}"></span>lear
+                                    </div>
+                                </div>
+<!--                                <div class="card-actions justify-end">-->
+<!--                                    <a href="javascript:;" onclick="$(this).next().submit();" class="btn btn-sm"-->
+<!--                                       th:classappend="${book.extra_actor_hasInCart ? 'btn-disabled' : ''}">-->
+<!--                                        <i class="fa-solid fa-cart-plus"></i>-->
+<!--                                        <span class="ml-2">장바구니</span>-->
+<!--                                    </a>-->
 
-                    <a th:href="@{|/book/${book.id}|}">
-                        <span
-                                th:text="${book.subject}"></span>
-                    </a>
+                                    <form th:action="@{|/cart/addItem/${book.id}|}" method="POST"></form>
 
-                    </span>
-                </li>
-            </ul>
-<!--            <a class="btn btn-primary btn-sm" href="/product/create">상품등록</a>-->
+                                    <a th:href="@{|/book/${book.id}|}" class="btn btn-sm">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="ml-2">보기</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+<!--            <ul>-->
+<!--                <li th:each="book : ${books}" class="flex items-center">-->
+<!--                    <a th:href="@{|/book/${book.id}|}">-->
+<!--                        <svg width="80" height="80" th:data-jdenticon-value="${book.jdenticon}"></svg>-->
+<!--                    </a>-->
+
+<!--                    <a th:href="@{|/book/${book.id}|}">-->
+<!--                        <span-->
+<!--                                th:text="${book.subject}"></span>-->
+<!--                    </a>-->
+
+<!--                    </span>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--&lt;!&ndash;            <a class="btn btn-primary btn-sm" href="/product/create">상품등록</a>&ndash;&gt;-->
         </div>
     </section>
 

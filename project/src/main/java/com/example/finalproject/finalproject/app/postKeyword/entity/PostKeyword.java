@@ -1,4 +1,4 @@
-package com.example.finalproject.finalproject.app.postkeyword.entity;
+package com.example.finalproject.finalproject.app.postKeyword.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
 import lombok.*;

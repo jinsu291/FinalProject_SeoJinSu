@@ -3,6 +3,7 @@ package com.example.finalproject.finalproject.app.postTag.entity;
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.post.entity.Post;
+import com.example.finalproject.finalproject.app.postKeyword.entity.PostKeyword;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
@@ -27,4 +28,8 @@ public class PostTag extends BaseEntity {
     @ManyToOne
     @ToString.Exclude
     private Member member;
+
+    @ManyToOne
+    @ToString.Exclude
+    private PostKeyword postKeyword;
 }

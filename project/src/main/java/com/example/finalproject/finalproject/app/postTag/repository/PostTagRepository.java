@@ -8,4 +8,7 @@ import java.util.Optional;
 
 public interface PostTagRepository extends JpaRepository<PostTag, Long> {
 
+    List<PostTag> findAllByPostId(Long postId);
+
+    Optional<PostTag> findByPostIdAndPostKeywordId(Long postId, Long keywordId);
 }

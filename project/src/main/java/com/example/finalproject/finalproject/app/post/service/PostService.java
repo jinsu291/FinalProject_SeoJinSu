@@ -3,6 +3,7 @@ package com.example.finalproject.finalproject.app.post.service;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.post.repository.PostRepository;
+import com.example.finalproject.finalproject.app.postTag.service.PostTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,9 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 public class PostService {
     private final PostRepository postRepository;
+    private final PostTagService postTagService;
 
-    public Post write(Member author, String subject, String content, String contentHtml) {
+    public Post write(Member author, String subject, String content, String contentHtml, String postTagContents) {
         Post post = Post.builder()
                 .subject(subject)
                 .content(content)
@@ -29,6 +31,8 @@ public class PostService {
                 .build();
         postRepository.save(post);
 
+        applyPostTags(post, postTagContents);
+
         return post;
     }
 
@@ -36,6 +40,9 @@ public class PostService {
         return postRepository.findById(postId);
     }
 
+    public void applyPostTags(Post post, String postTagContents) {
+        postTagService.applyPostTags(post, postTagContents);
+    }
 
     public void modify(Post post, String subject, String content, String contentHtml) {
         post.setSubject(subject);

@@ -4,6 +4,7 @@ import com.example.finalproject.finalproject.app.base.dto.RsData;
 import com.example.finalproject.finalproject.app.cash.entity.CashLog;
 import com.example.finalproject.finalproject.app.cash.service.CashService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
+import com.example.finalproject.finalproject.app.member.entity.emum.AuthLevel;
 import com.example.finalproject.finalproject.app.member.exception.AlreadyJoinException;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.app.security.dto.MemberContext;
@@ -40,6 +41,7 @@ public class MemberService {
                 .password(passwordEncoder.encode(password))
                 .email(email)
                 .nickname(nickname)
+                .authLevel(AuthLevel.NORMAL)
                 .build();
 
         memberRepository.save(member);

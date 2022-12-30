@@ -38,7 +38,7 @@ public class PostController {
     @PostMapping("/write")
     public String write(@Valid PostForm postForm) {
         Member author = rq.getMember();
-        Post post = postService.write(author, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml());
+        Post post = postService.write(author, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml(), postForm.getPostTagContents());
         return Rq.redirectWithMsg("/post/" + post.getId(), "%d번 글이 생성되었습니다.".formatted(post.getId()));
     }
 

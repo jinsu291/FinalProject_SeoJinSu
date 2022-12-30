@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 @SuperBuilder
 @ToString(callSuper = true)
 public class PostKeyword extends BaseEntity {
-
     private String content;
 
     public Object getListUrl() {

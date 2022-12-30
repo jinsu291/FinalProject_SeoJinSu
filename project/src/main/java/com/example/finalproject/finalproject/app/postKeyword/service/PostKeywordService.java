@@ -2,9 +2,13 @@ package com.example.finalproject.finalproject.app.postKeyword.service;
 
 import com.example.finalproject.finalproject.app.postKeyword.entity.PostKeyword;
 import com.example.finalproject.finalproject.app.postKeyword.repository.PostKeywordRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class PostKeywordService {
     private PostKeywordRepository postKeywordRepository;
 

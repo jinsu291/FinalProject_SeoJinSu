@@ -11,4 +11,8 @@ public interface PostTagRepository extends JpaRepository<PostTag, Long> {
     List<PostTag> findAllByPostId(Long postId);
 
     Optional<PostTag> findByPostIdAndPostKeywordId(Long postId, Long keywordId);
+
+    List<PostTag> findAllByPostIdIn(long[] ids);
+
+    List<PostTag> findAllByMemberIdAndPostKeyword_contentOrderByPost_idDesc(Long id, String postKeywordContent);
 }

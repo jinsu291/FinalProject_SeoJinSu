@@ -7,6 +7,7 @@ import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.post.form.PostForm;
 import com.example.finalproject.finalproject.app.post.service.PostService;
+import com.example.finalproject.finalproject.app.postTag.entity.PostTag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -68,7 +69,7 @@ public class PostController {
             throw new ActorCanNotModifyException();
         }
 
-        postService.modify(post, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml());
+        postService.modify(post, postForm.getSubject(), postForm.getContent(), postForm.getContentHtml(), postForm.getPostTagContents());
         return Rq.redirectWithMsg("/post/" + post.getId(), "%d번 글이 수정되었습니다.".formatted(post.getId()));
     }
 
@@ -96,6 +97,15 @@ public class PostController {
         model.addAttribute("posts", posts);
 
         return "post/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/tag/{tagContent}")
+    public String tagList(Model model, @PathVariable String tagContent) {
+        List<PostTag> postTags = postService.getPostTags(rq.getMember(), tagContent);
+
+        model.addAttribute("postTags", postTags);
+        return "post/tagList";
     }
 
     @PreAuthorize("isAuthenticated()")

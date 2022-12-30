@@ -3,6 +3,7 @@ package com.example.finalproject.finalproject.app.post.service;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.post.repository.PostRepository;
+import com.example.finalproject.finalproject.app.postTag.entity.PostTag;
 import com.example.finalproject.finalproject.app.postTag.service.PostTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,10 +45,11 @@ public class PostService {
         postTagService.applyPostTags(post, postTagContents);
     }
 
-    public void modify(Post post, String subject, String content, String contentHtml) {
+    public void modify(Post post, String subject, String content, String contentHtml, String postTagContents) {
         post.setSubject(subject);
         post.setContent(content);
         post.setContentHtml(contentHtml);
+        applyPostTags(post, postTagContents);
     }
 
     public boolean actorCanModify(Member author, Post post) {
@@ -56,6 +58,45 @@ public class PostService {
 
     public boolean actorCanRemove(Member author, Post post) {
         return actorCanModify(author, post);
+    }
+
+    public List<PostTag> getPostTags(Member author, String postKeywordContent) {
+        List<PostTag> postTags = postTagService.getPostTags(author, postKeywordContent);
+
+        loadForPrintDataOnPostTagList(postTags);
+
+        return postTags;
+    }
+
+    private void loadForPrintDataOnPostTagList(List<PostTag> postTags) {
+        List<Post> posts = postTags
+                .stream()
+                .map(PostTag::getPost)
+                .collect(toList());
+
+        loadForPrintData(posts);
+    }
+
+    public void loadForPrintData(List<Post> posts) {
+        long[] ids = posts
+                .stream()
+                .mapToLong(Post::getId)
+                .toArray();
+
+        List<PostTag> postTagsByPostIds = postTagService.getPostTagsByPostIdIn(ids);
+
+        Map<Long, List<PostTag>> postTagsByPostIdsMap = postTagsByPostIds.stream()
+                .collect(groupingBy(
+                        postTag -> postTag.getPost().getId(), toList()
+                ));
+
+        posts.stream().forEach(post -> {
+            List<PostTag> postTags = postTagsByPostIdsMap.get(post.getId());
+
+            if (postTags == null || postTags.size() == 0) return;
+
+            post.getExtra().put("postTags", postTags);
+        });
     }
 
     public void remove(Post post) {

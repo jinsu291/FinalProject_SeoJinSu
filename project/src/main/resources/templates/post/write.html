@@ -32,6 +32,15 @@
                         return;
                     }
 
+                    form.postTagContents.value = form.postTagContents.value.trim();
+
+                    if (form.postTagContents.value.length == 0) {
+                        warningModal("태그를 입력해주세요.");
+                        form.postTagContents.focus();
+
+                        return;
+                    }
+
                     const editor = $(form).find(".toast-ui-editor").data("data-toast-editor");
                     const markdown = editor.getMarkdown().trim();
                     const html = editor.getHTML().trim();
@@ -60,6 +69,15 @@
                         <span class="label-text">제목</span>
                     </label>
                     <input autofocus type="text" name="subject" placeholder="제목" class="input input-bordered"
+                           maxlength="50">
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">태그</span>
+                    </label>
+                    <input type="text" name="postTagContents" placeholder="#태그1 #태그2 #태그3 ..."
+                           class="input input-bordered"
                            maxlength="50">
                 </div>
 

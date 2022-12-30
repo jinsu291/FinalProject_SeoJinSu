@@ -1,12 +1,14 @@
 package com.example.finalproject.finalproject.app.postTag.service;
 
-import com.example.finalproject.finalproject.app.ProductKeyword.service.ProductKeywordService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.postKeyword.service.PostKeywordService;
 import com.example.finalproject.finalproject.app.postTag.entity.PostTag;
 import com.example.finalproject.finalproject.app.postTag.repository.PostTagRepository;
 import com.example.finalproject.finalproject.app.postKeyword.entity.PostKeyword;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostTagService {
     private PostTagRepository postTagRepository;
     private PostKeywordService postKeywordService;

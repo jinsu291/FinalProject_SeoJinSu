@@ -1,6 +1,7 @@
 package com.example.finalproject.finalproject.app.member.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
+import com.example.finalproject.finalproject.app.member.entity.emum.AuthLevel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -30,6 +31,9 @@ public class Member extends BaseEntity {
     private String nickname;
     private boolean emailVerified;
     private long restCash;
+
+    @Convert(converter = AuthLevel.Converter.class)
+    private AuthLevel authLevel;
 
     public String getName() {
         if (nickname != null) {

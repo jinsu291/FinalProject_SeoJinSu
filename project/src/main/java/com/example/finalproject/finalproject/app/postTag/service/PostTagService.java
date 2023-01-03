@@ -6,6 +6,7 @@ import com.example.finalproject.finalproject.app.postKeyword.service.PostKeyword
 import com.example.finalproject.finalproject.app.postTag.entity.PostTag;
 import com.example.finalproject.finalproject.app.postTag.repository.PostTagRepository;
 import com.example.finalproject.finalproject.app.postKeyword.entity.PostKeyword;
+import com.example.finalproject.finalproject.app.productTag.entity.ProductTag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class PostTagService {
     private PostTagRepository postTagRepository;
     private PostKeywordService postKeywordService;
@@ -77,5 +77,13 @@ public class PostTagService {
 
     public List<PostTag> getPostTags(Member member, String postKeywordContent) {
         return postTagRepository.findAllByMemberIdAndPostKeyword_contentOrderByPost_idDesc(member.getId(), postKeywordContent);
+    }
+
+    public List<PostTag> getPostTags(long authorId, long postKeywordId) {
+        return postTagRepository.findAllByMemberIdAndPostKeywordIdOrderByPost_idDesc(authorId, postKeywordId);
+    }
+
+    public List<ProductTag> getPostTags(String productTagContent) {
+        return postTagRepository.findAllByPostKeyword_contentOrderByPost_idDesc(productTagContent);
     }
 }

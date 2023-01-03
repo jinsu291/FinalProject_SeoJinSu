@@ -5,6 +5,7 @@ import com.example.finalproject.finalproject.app.postKeyword.repository.PostKeyw
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +28,20 @@ public class PostKeywordService {
         postKeywordRepository.save(postKeyword);
 
         return postKeyword;
+    }
+
+    public Optional<PostKeyword> findByContent(String content) {
+        return postKeywordRepository.findByContent(content);
+    }
+
+    public PostKeyword findByContentOrSave(String content) {
+        return save(content);
+    }
+
+    public Optional<PostKeyword> findById(long id) {
+        return postKeywordRepository.findById(id);
+    }
+    public List<PostKeyword> findByMemberId(Long authorId) {
+        return postKeywordRepository.getQslAllByAuthorId(authorId);
     }
 }

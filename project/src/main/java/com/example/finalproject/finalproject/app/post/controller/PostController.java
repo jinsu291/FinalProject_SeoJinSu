@@ -31,7 +31,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
-    public String getWrite() {
+    public String showWrite() {
         return "post/write";
     }
 

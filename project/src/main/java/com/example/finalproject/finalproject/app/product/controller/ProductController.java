@@ -35,7 +35,7 @@ public class ProductController {
     private final ProductService productService;
     private final Rq rq;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
     @GetMapping("/create")
     public String showCreate(@AuthenticationPrincipal MemberContext memberContext, Model model) {
         Member actor = memberContext.getMember();

@@ -45,6 +45,10 @@ public class PostService {
         postTagService.applyPostTags(post, postTagContents);
     }
 
+    public List<PostTag> getPostTags(Post post) {
+        return postTagService.getPostTags(post);
+    }
+
     public void modify(Post post, String subject, String content, String contentHtml, String postTagContents) {
         post.setSubject(subject);
         post.setContent(content);
@@ -108,12 +112,17 @@ public class PostService {
 
         if (opPost.isEmpty()) return opPost;
 
+        List<PostTag> postTags = getPostTags(opPost.get());
+
+        opPost.get().getExtra().put("postTags", postTags);
+
+
         return opPost;
     }
 
     public List<Post> findAllForPrintByAuthorIdOrderByIdDesc(long authorId) {
         List<Post> posts = postRepository.findAllByAuthorIdOrderByIdDesc(authorId);
-
+        loadForPrintData(posts);
         return posts;
     }
 

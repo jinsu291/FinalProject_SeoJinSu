@@ -18,13 +18,12 @@ public class DevInitData implements InitDataBefore {
     CommandLineRunner initData(
             MemberService memberService,
             PostService postService,
-            MyBookService myBookService,
             ProductService productService,
             CartService cartService,
             OrderService orderService
     ) {
         return args -> {
-            before(memberService, postService, myBookService, productService,  cartService, orderService);
+            before(memberService, postService, productService,  cartService, orderService);
         };
     }
 }

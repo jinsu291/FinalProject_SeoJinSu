@@ -18,7 +18,6 @@ public interface InitDataBefore {
     default void before(
             MemberService memberService,
             PostService postService,
-            MyBookService myBookService,
             ProductService productService,
             CartService cartService,
             OrderService orderService) {

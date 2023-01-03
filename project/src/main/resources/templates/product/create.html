@@ -51,7 +51,7 @@
                         <span class="label-text">도서</span>
                     </label>
                     <select class="select select-bordered select-2" name="bookId">
-                        <option th:each="book : ${books}" th:value="${book.id}" th:text="|${book.id}. ${book.subject}|"></option>
+                        <option th:each="myBook : ${myBooks}" th:value="${myBook.id}" th:text="|${myBook.id}. ${myBook.subject}|"></option>
                     </select>
                 </div>
 

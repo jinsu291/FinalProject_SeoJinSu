@@ -1,7 +1,7 @@
 package com.example.finalproject.finalproject.app.product.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
-import com.example.finalproject.finalproject.app.book.entity.Book;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member author;
     @ManyToOne(fetch = LAZY)
-    private Book book;
+    private MyBook myBook;
     private String subject;
     private int price;
 

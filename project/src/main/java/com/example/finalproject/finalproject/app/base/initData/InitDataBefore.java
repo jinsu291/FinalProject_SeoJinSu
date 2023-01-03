@@ -1,7 +1,7 @@
 package com.example.finalproject.finalproject.app.base.initData;
 
-import com.example.finalproject.finalproject.app.book.entity.Book;
-import com.example.finalproject.finalproject.app.book.service.BookService;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
@@ -18,7 +18,7 @@ public interface InitDataBefore {
     default void before(
             MemberService memberService,
             PostService postService,
-            BookService bookService,
+            MyBookService myBookService,
             ProductService productService,
             CartService cartService,
             OrderService orderService) {
@@ -40,19 +40,19 @@ public interface InitDataBefore {
         Member member1 = memberService.join("user1", "1234", "user1@test.com", "");
         Member member2 = memberService.join("user2", "1234", "user2@test.com", "user2");
 
-        Book book1 = bookService.create(member1, "책 1", 30_000);
-        Book book2 = bookService.create(member1, "책 2", 40_000);
-        Book book3 = bookService.create(member2, "책 3", 50_000);
-        Book book4 = bookService.create(member2, "책 4", 60_000);
-        Book book5 = bookService.create(member1, "책 5", 70_000);
-        Book book6 = bookService.create(member1, "책 6", 80_000);
-        Book book7 = bookService.create(member2, "책 7", 90_000);
-        Book book8 = bookService.create(member2, "책 8", 100_000);
+        MyBook myBook1 = myBookService.create(member1, "책 1", 30_000);
+        MyBook myBook2 = myBookService.create(member1, "책 2", 40_000);
+        MyBook myBook3 = myBookService.create(member2, "책 3", 50_000);
+        MyBook myBook4 = myBookService.create(member2, "책 4", 60_000);
+        MyBook myBook5 = myBookService.create(member1, "책 5", 70_000);
+        MyBook myBook6 = myBookService.create(member1, "책 6", 80_000);
+        MyBook myBook7 = myBookService.create(member2, "책 7", 90_000);
+        MyBook myBook8 = myBookService.create(member2, "책 8", 100_000);
 
-        Product product1 = productService.create(book1, "책 1", 30_000);
-        Product product2 = productService.create(book3, "책 3", 50_000);
-        Product product3 = productService.create(book5, "책 5", 70_000);
-        Product product4 = productService.create(book7, "책 7", 90_000);
+        Product product1 = productService.create(myBook1, "책 1", 30_000);
+        Product product2 = productService.create(myBook3, "책 3", 50_000);
+        Product product3 = productService.create(myBook5, "책 5", 70_000);
+        Product product4 = productService.create(myBook7, "책 7", 90_000);
 
         memberService.addCash(member1, 10_000, "충전__무통장입금");
         memberService.addCash(member1, 20_000, "충전__무통장입금");

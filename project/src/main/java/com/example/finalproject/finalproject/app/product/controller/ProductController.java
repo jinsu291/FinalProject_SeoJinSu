@@ -2,10 +2,9 @@ package com.example.finalproject.finalproject.app.product.controller;
 
 import com.example.finalproject.finalproject.app.base.exception.ActorCanNotModifyException;
 import com.example.finalproject.finalproject.app.base.rq.Rq;
-import com.example.finalproject.finalproject.app.book.entity.Book;
-import com.example.finalproject.finalproject.app.book.service.BookService;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.product.entity.Product;
 import com.example.finalproject.finalproject.app.product.form.ProductForm;
 import com.example.finalproject.finalproject.app.product.form.ProductModifyForm;
@@ -31,18 +30,18 @@ import java.util.List;
 @RequestMapping("/product")
 @Slf4j
 public class ProductController {
-    private final BookService bookService;
+    private final MyBookService myBookService;
     private final ProductService productService;
     private final Rq rq;
 
-    @PreAuthorize("isAuthenticated() and hasAuthority('AUTHOR')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String showCreate(@AuthenticationPrincipal MemberContext memberContext, Model model) {
         Member actor = memberContext.getMember();
 
-        List<Book> books = bookService.findAllByAuthorId(actor.getId());
+        List<MyBook> myBooks = myBookService.findAllByAuthorId(actor.getId());
 
-        model.addAttribute("books", books);
+        model.addAttribute("books", myBooks);
 
         return "product/create";
     }
@@ -52,13 +51,13 @@ public class ProductController {
     public String create(@AuthenticationPrincipal MemberContext memberContext, @Valid ProductForm productForm) {
         Member author = memberContext.getMember();
 
-        Book book = bookService.findById(productForm.getBookId()).get();
+        MyBook myBook = myBookService.findById(productForm.getBookId()).get();
 
-        if (author.getId().equals(book.getAuthor().getId()) == false) {
-            return "redirect:/product/create?msg=" + Ut.url.encode("%d번 상품에 대한 권한이 없습니다.".formatted(book.getId()));
+        if (author.getId().equals(myBook.getAuthor().getId()) == false) {
+            return "redirect:/product/create?msg=" + Ut.url.encode("%d번 상품에 대한 권한이 없습니다.".formatted(myBook.getId()));
         }
 
-        Product product = productService.create(book, productForm.getSubject(), productForm.getPrice());
+        Product product = productService.create(myBook, productForm.getSubject(), productForm.getPrice());
         return "redirect:/product/" + product.getId() + "?msg=" + Ut.url.encode("%d번 상품이 생성되었습니다.".formatted(product.getId()));
     }
 

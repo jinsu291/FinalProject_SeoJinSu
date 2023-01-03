@@ -1,7 +1,7 @@
 package com.example.finalproject.finalproject.service;
 
-import com.example.finalproject.finalproject.app.book.entity.Book;
-import com.example.finalproject.finalproject.app.book.service.BookService;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.product.entity.Product;
 import com.example.finalproject.finalproject.app.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 public class ProductServiceTests {
     @Autowired
-    private BookService bookService;
+    private MyBookService myBookService;
 
     @Autowired
     private ProductService productService;
@@ -26,9 +26,9 @@ public class ProductServiceTests {
     @Test
     @DisplayName("상품 등록")
     void t1() {
-        Book book = bookService.findById(1).get();
+        MyBook myBook = myBookService.findById(1).get();
 
-        Product product = productService.create(book, "그리움", 1_900);
+        Product product = productService.create(myBook, "그리움", 1_900);
 
         assertThat(product).isNotNull();
         assertThat(product.getSubject()).isEqualTo("그리움");

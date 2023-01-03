@@ -1,8 +1,7 @@
 package com.example.finalproject.finalproject.app.product.service;
 
-import com.example.finalproject.finalproject.app.book.entity.Book;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import com.example.finalproject.finalproject.app.post.entity.Post;
 import com.example.finalproject.finalproject.app.product.entity.Product;
 import com.example.finalproject.finalproject.app.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +18,11 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Product create(Book book, String subject, int price) {
+    public Product create(MyBook myBook, String subject, int price) {
         Product product = Product.builder()
                 .subject(subject)
-                .book(book)
-                .author(book.getAuthor())
+                .myBook(myBook)
+                .author(myBook.getAuthor())
                 .price(price)
                 .build();
 

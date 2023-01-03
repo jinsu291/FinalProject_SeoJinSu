@@ -1,8 +1,7 @@
 package com.example.finalproject.finalproject.controller;
 
-import com.example.finalproject.finalproject.app.book.service.BookService;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.order.controller.OrderController;
-import com.example.finalproject.finalproject.app.order.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class OrderControllerTests {
     @Autowired
     private MockMvc mvc;
     @Autowired
-    private BookService bookService;
+    private MyBookService myBookService;
 
     @Test
     @DisplayName("주문 상세화면")

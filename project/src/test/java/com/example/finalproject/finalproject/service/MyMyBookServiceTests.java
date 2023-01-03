@@ -1,11 +1,9 @@
 package com.example.finalproject.finalproject.service;
 
-import com.example.finalproject.finalproject.app.book.entity.Book;
-import com.example.finalproject.finalproject.app.book.service.BookService;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
-import com.example.finalproject.finalproject.app.product.entity.Product;
-import com.example.finalproject.finalproject.app.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class BookServiceTests {
+public class MyMyBookServiceTests {
     @Autowired
-    private BookService bookService;
+    private MyBookService myBookService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -30,10 +28,10 @@ public class BookServiceTests {
     void t1() {
         Member author = memberRepository.findByUsername("user1").get();
 
-        Book book = bookService.create(author, "제목", 3000);
+        MyBook myBook = myBookService.create(author, "제목", 3000);
 
-        assertThat(book).isNotNull();
-        assertThat(book.getSubject()).isEqualTo("제목");
-        assertThat(book.getPrice()).isEqualTo(3000);
+        assertThat(myBook).isNotNull();
+        assertThat(myBook.getSubject()).isEqualTo("제목");
+        assertThat(myBook.getPrice()).isEqualTo(3000);
     }
 }

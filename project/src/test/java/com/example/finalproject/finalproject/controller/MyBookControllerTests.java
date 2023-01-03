@@ -1,11 +1,8 @@
 package com.example.finalproject.finalproject.controller;
 
-import com.example.finalproject.finalproject.app.book.controller.BookController;
-import com.example.finalproject.finalproject.app.book.entity.Book;
-import com.example.finalproject.finalproject.app.book.service.BookService;
-import com.example.finalproject.finalproject.app.product.controller.ProductController;
-import com.example.finalproject.finalproject.app.product.entity.Product;
-import com.example.finalproject.finalproject.app.product.service.ProductService;
+import com.example.finalproject.finalproject.app.myBook.controller.BookController;
+import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-public class BookControllerTests {
+public class MyBookControllerTests {
 
     @Autowired
     private MockMvc mvc;
     @Autowired
-    private BookService bookService;
+    private MyBookService myBookService;
 
     @Test
     @DisplayName("도서 업로드 폼")
@@ -76,7 +73,7 @@ public class BookControllerTests {
                 .andExpect(redirectedUrlPattern("/book/**"));
 
         Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/book/", "").split("\\?", 2)[0]);
-        assertThat(bookService.findById(songId).isPresent()).isTrue();
+        assertThat(myBookService.findById(songId).isPresent()).isTrue();
     }
     @Test
     @DisplayName("도서 수정 폼")
@@ -117,11 +114,11 @@ public class BookControllerTests {
 
         Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/book/", "").split("\\?")[0]);
 
-        Book book = bookService.findById(songId).get();
+        MyBook myBook = myBookService.findById(songId).get();
 
-        assertThat(book).isNotNull();
-        assertThat(book.getSubject()).isEqualTo("제목1 NEW");
-        assertThat(book.getPrice()).isEqualTo(1900);
+        assertThat(myBook).isNotNull();
+        assertThat(myBook.getSubject()).isEqualTo("제목1 NEW");
+        assertThat(myBook.getPrice()).isEqualTo(1900);
 
     }
 }

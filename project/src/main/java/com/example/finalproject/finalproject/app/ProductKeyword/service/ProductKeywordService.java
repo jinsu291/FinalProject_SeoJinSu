@@ -14,18 +14,15 @@ public class ProductKeywordService {
 
     public ProductKeyword save(String content) {
         Optional<ProductKeyword> optKeyword = productKeywordRepository.findByContent(content);
-
         if (optKeyword.isPresent()) {
             return optKeyword.get();
         }
-
         ProductKeyword productKeyword = ProductKeyword
                 .builder()
                 .content(content)
                 .build();
 
         productKeywordRepository.save(productKeyword);
-
         return productKeyword;
     }
 

@@ -31,9 +31,7 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     public String showItems(@AuthenticationPrincipal MemberContext memberContext, Model model) {
         Member buyer = memberContext.getMember();
-
         List<CartItem> items = cartService.getItemsByBuyer(buyer);
-
         model.addAttribute("items", items);
 
         return "cart/items";
@@ -43,7 +41,6 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     public String addItem(@PathVariable long productId) {
         cartService.addItem(rq.getMember(), new Product((productId)));
-
         return rq.redirectToBackWithMsg("장바구니에 추가되었습니다.");
     }
 
@@ -51,22 +48,18 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     public String removeItem(@PathVariable long productId) {
         cartService.removeItem(rq.getMember(), new Product((productId)));
-
         return rq.redirectToBackWithMsg("장바구니에서 삭제되었습니다.");
     }
 
     @PostMapping("/removeItems")
     @PreAuthorize("isAuthenticated()")
-    public String removeItems(@AuthenticationPrincipal MemberContext memberContext, String ids) {
-        Member buyer = memberContext.getMember();
-
+    public String removeItems(String ids) {
+        Member buyer = rq.getMember();
         String[] idsArr = ids.split(",");
-
         Arrays.stream(idsArr)
                 .mapToLong(Long::parseLong)
                 .forEach(id -> {
                     CartItem cartItem = cartService.findItemById(id).orElse(null);
-
                     if (cartService.actorCanDelete(buyer, cartItem)) {
                         cartService.removeItem(cartItem);
                     }

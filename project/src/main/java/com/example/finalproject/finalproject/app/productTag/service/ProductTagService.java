@@ -25,7 +25,6 @@ public class ProductTagService {
     @Transactional
     public void applyProductTags(Product product, String productTagContents) {
         List<ProductTag> oldProductTags = getProductTags(product);
-
         List<String> productKeywordContents = Arrays.stream(productTagContents.split("#"))
                 .map(String::trim)
                 .filter(s -> s.length() > 0)
@@ -35,14 +34,11 @@ public class ProductTagService {
 
         for (ProductTag oldProductTag : oldProductTags) {
             boolean contains = productKeywordContents.stream().anyMatch(s -> s.equals(oldProductTag.getProductKeyword().getContent()));
-
             if (contains == false) {
                 needToDelete.add(oldProductTag);
             }
         }
-
         needToDelete.forEach(productTag -> productTagRepository.delete(productTag));
-
         productKeywordContents.forEach(productKeywordContent -> {
             saveProductTag(product, productKeywordContent);
         });
@@ -50,13 +46,10 @@ public class ProductTagService {
 
     private ProductTag saveProductTag(Product product, String productKeywordContent) {
         ProductKeyword productKeyword = productKeywordService.save(productKeywordContent);
-
         Optional<ProductTag> opProductTag = productTagRepository.findByProductIdAndProductKeywordId(product.getId(), productKeyword.getId());
-
         if (opProductTag.isPresent()) {
             return opProductTag.get();
         }
-
         ProductTag productTag = ProductTag.builder()
                 .product(product)
                 .member(product.getAuthor())
@@ -64,7 +57,6 @@ public class ProductTagService {
                 .build();
 
         productTagRepository.save(productTag);
-
         return productTag;
     }
 

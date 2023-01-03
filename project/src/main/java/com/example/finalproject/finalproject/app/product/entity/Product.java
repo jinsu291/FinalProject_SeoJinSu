@@ -1,12 +1,10 @@
 package com.example.finalproject.finalproject.app.product.entity;
 
 import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
-import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.member.entity.Member;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.finalproject.finalproject.app.postKeyword.entity.PostKeyword;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -15,18 +13,19 @@ import javax.persistence.ManyToOne;
 import java.util.Map;
 
 import static javax.persistence.FetchType.LAZY;
-import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @Setter
 @SuperBuilder
-@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
 public class Product extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     private Member author;
     @ManyToOne(fetch = LAZY)
-    private MyBook myBook;
+    private PostKeyword postKeyword;
     private String subject;
     private int price;
 
@@ -52,11 +51,9 @@ public class Product extends BaseEntity {
 
     public CartItem getExtra_actor_cartItem() {
         Map<String, Object> extra = getExtra();
-
         if (extra.containsKey("actor_cartItem") == false) {
             return null;
         }
-
         return (CartItem)extra.get("actor_cartItem");
     }
 

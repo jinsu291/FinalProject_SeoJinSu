@@ -13,7 +13,7 @@ public class ProductForm {
     @NotNull
     private int price;
     @NotNull
-    private long bookId;
+    private Long postKeywordId;
     @NotBlank
     private String productTagContents;
 }

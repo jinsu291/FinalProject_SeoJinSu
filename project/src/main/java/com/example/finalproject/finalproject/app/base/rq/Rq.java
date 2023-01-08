@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.RequestScope;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,13 +44,14 @@ public class Rq {
 
     public String redirectToBackWithMsg(String msg) {
         String url = req.getHeader("Referer");
-
+        if (StringUtils.hasText(url) == false) {
+            url = "/";
+        }
         return redirectWithMsg(url, msg);
     }
 
     public boolean hasAuthority(String authorityName) {
         if( memberContext == null ) return false;
-
         return memberContext.hasAuthority(authorityName);
     }
 
@@ -66,7 +68,6 @@ public class Rq {
         if (rsData.isFail()) {
             return urlWithErrorMsg(url, rsData.getMsg());
         }
-
         return urlWithMsg(url, rsData.getMsg());
     }
 

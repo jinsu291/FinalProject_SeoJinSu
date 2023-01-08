@@ -33,7 +33,6 @@ public class CartController {
         Member buyer = memberContext.getMember();
         List<CartItem> items = cartService.getItemsByBuyer(buyer);
         model.addAttribute("items", items);
-
         return "cart/items";
     }
 
@@ -64,7 +63,6 @@ public class CartController {
                         cartService.removeItem(cartItem);
                     }
                 });
-
         return "redirect:/cart/items?msg=" + Ut.url.encode("%d건의 품목을 삭제하였습니다.".formatted(idsArr.length));
     }
 }

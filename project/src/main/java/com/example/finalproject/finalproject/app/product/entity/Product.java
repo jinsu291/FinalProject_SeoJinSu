@@ -4,13 +4,16 @@ import com.example.finalproject.finalproject.app.base.entity.BaseEntity;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.postKeyword.entity.PostKeyword;
+import com.example.finalproject.finalproject.app.productTag.entity.ProductTag;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -49,11 +52,61 @@ public class Product extends BaseEntity {
         return "product__" + getId();
     }
 
+    public String getExtra_inputValue_hashTagContents() {
+        Map<String, Object> extra = getExtra();
+
+        if (extra.containsKey("productTags") == false) {
+            return "";
+        }
+
+        List<ProductTag> productTags = (List<ProductTag>) extra.get("productTags");
+
+        if (productTags.isEmpty()) {
+            return "";
+        }
+
+        return productTags
+                .stream()
+                .map(productTag -> "#" + productTag.getProductKeyword().getContent())
+                .sorted()
+                .collect(Collectors.joining(" "));
+    }
+
+    public String getExtra_productTagLinks() {
+        Map<String, Object> extra = getExtra();
+
+        if (extra.containsKey("productTags") == false) {
+            return "";
+        }
+
+        List<ProductTag> productTags = (List<ProductTag>) extra.get("productTags");
+
+        if (productTags.isEmpty()) {
+            return "";
+        }
+
+        return productTags
+                .stream()
+                .map(productTag -> {
+                    String text = "#" + productTag.getProductKeyword().getContent();
+
+                    return """
+                            <a href="%s" class="text-link">%s</a>
+                            """
+                            .stripIndent()
+                            .formatted(productTag.getProductKeyword().getListUrl(), text);
+                })
+                .sorted()
+                .collect(Collectors.joining(" "));
+    }
+
     public CartItem getExtra_actor_cartItem() {
         Map<String, Object> extra = getExtra();
+
         if (extra.containsKey("actor_cartItem") == false) {
             return null;
         }
+
         return (CartItem)extra.get("actor_cartItem");
     }
 

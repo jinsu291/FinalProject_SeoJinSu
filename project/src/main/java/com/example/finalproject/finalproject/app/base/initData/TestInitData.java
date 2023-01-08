@@ -1,6 +1,5 @@
 package com.example.finalproject.finalproject.app.base.initData;
 
-import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
@@ -21,7 +20,7 @@ public class TestInitData implements InitDataBefore {
             ProductService productService,
             CartService cartService,
             OrderService orderService
-            ) {
+    ) {
         return args -> {
             before(memberService, postService, productService,  cartService, orderService);
         };

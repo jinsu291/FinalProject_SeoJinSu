@@ -3,14 +3,11 @@ package com.example.finalproject.finalproject.app.myBook.service;
 import com.example.finalproject.finalproject.app.base.dto.RsData;
 import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
 import com.example.finalproject.finalproject.app.myBook.repository.MyBookRepository;
-import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.order.entity.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

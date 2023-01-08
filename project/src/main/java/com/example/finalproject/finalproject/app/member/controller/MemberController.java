@@ -37,7 +37,6 @@ public class MemberController {
         if (uri != null && !uri.contains("/member/login")) {
             request.getSession().setAttribute("prevPage", uri);
         }
-
         return "member/login";
     }
 

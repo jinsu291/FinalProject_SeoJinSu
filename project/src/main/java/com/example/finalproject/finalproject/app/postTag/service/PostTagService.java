@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PostTagService {
-    private PostTagRepository postTagRepository;
-    private PostKeywordService postKeywordService;
+    private final PostTagRepository postTagRepository;
+    private final PostKeywordService postKeywordService;
 
     public void applyPostTags(Post post, String postTagContents) {
         List<PostTag> oldPostTags = getPostTags(post);

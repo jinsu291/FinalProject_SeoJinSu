@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostKeywordService {
-    private PostKeywordRepository postKeywordRepository;
+    private final PostKeywordRepository postKeywordRepository ;
 
     public PostKeyword save(String content) {
         Optional<PostKeyword> optKeyword = postKeywordRepository.findByContent(content);

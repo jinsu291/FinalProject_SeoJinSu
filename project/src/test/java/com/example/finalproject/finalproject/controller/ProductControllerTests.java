@@ -1,8 +1,10 @@
 package com.example.finalproject.finalproject.controller;
 
-import com.example.finalproject.finalproject.app.myBook.controller.BookController;
 import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
 import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
+import com.example.finalproject.finalproject.app.product.controller.ProductController;
+import com.example.finalproject.finalproject.app.product.entity.Product;
+import com.example.finalproject.finalproject.app.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,41 +28,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-public class MyBookControllerTests {
+public class ProductControllerTests {
 
     @Autowired
     private MockMvc mvc;
     @Autowired
-    private MyBookService myBookService;
+    private ProductService productService;
 
     @Test
-    @DisplayName("도서 업로드 폼")
+    @DisplayName("상품 등록 폼")
     @WithUserDetails("user1")
     void t1() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
                 .perform(
-                        get("/book/create")
+                        get("/product/create")
                 )
                 .andDo(print());
 
         // THEN
         resultActions
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(handler().handlerType(BookController.class))
+                .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("showCreate"))
-                .andExpect(content().string(containsString("도서 업로드")));
+                .andExpect(content().string(containsString("상품 등록")));
     }
 
     @Test
-    @DisplayName("도서 업로드")
+    @DisplayName("상품 등록")
     @WithUserDetails("user1")
     void t2() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(post("/book/create")
+                .perform(post("/product/create")
                         .param("subject", "제목")
                         .param("Price", "1800")
+                        .param("postKeywordId", "1")
+                        .param("productTagContents", "#올해 가장 인기있는 #IT")
                         .with(csrf())
                 )
                 .andDo(print());
@@ -68,57 +72,27 @@ public class MyBookControllerTests {
         // THEN
         resultActions
                 .andExpect(status().is3xxRedirection())
-                .andExpect(handler().handlerType(BookController.class))
+                .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("create"))
-                .andExpect(redirectedUrlPattern("/book/**"));
+                .andExpect(redirectedUrlPattern("/product/**"));
 
         Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/book/", "").split("\\?", 2)[0]);
-        assertThat(myBookService.findById(songId).isPresent()).isTrue();
+        assertThat(productService.findById(songId).isPresent()).isTrue();
     }
     @Test
-    @DisplayName("도서 수정 폼")
+    @DisplayName("상품 수정 폼")
     @WithUserDetails("user1")
     void t3() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/book/1/modify"))
+                .perform(get("/product/1/modify"))
                 .andDo(print());
 
         // THEN
         resultActions
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(handler().handlerType(BookController.class))
+                .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("showModify"))
                 .andExpect(content().string(containsString("도서 수정")));
-    }
-
-    @Test
-    @DisplayName("도서 수정")
-    @WithUserDetails("user1")
-    void t4() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(post("/book/1/modify")
-                        .param("subject", "제목1 NEW")
-                        .param("Price", "1900")
-                        .with(csrf())
-                )
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(status().is3xxRedirection())
-                .andExpect(handler().handlerType(BookController.class))
-                .andExpect(handler().methodName("modify"))
-                .andExpect(redirectedUrlPattern("/book/**"));
-
-        Long songId = Long.valueOf(resultActions.andReturn().getResponse().getRedirectedUrl().replace("/book/", "").split("\\?")[0]);
-
-        MyBook myBook = myBookService.findById(songId).get();
-
-        assertThat(myBook).isNotNull();
-        assertThat(myBook.getSubject()).isEqualTo("제목1 NEW");
-        assertThat(myBook.getPrice()).isEqualTo(1900);
-
     }
 }

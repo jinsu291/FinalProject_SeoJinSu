@@ -19,7 +19,6 @@ public class CashService {
                 .build();
 
         cashLogRepository.save(cashLog);
-
         return cashLog;
     }
 }

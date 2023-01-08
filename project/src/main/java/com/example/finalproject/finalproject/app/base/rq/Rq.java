@@ -111,4 +111,24 @@ public class Rq {
     public boolean isLogined() {
         return isLogout() == false;
     }
+
+    public boolean isAdmin() {
+        if ( isLogout() ) return false;
+
+        return memberContext.hasAuthority("ADMIN");
+    }
+
+    public boolean isAuthor() {
+        if ( isLogout() ) return false;
+
+        return memberContext.hasAuthority("AUTHOR");
+    }
+
+    public boolean isUsrPage() {
+        return isAdmPage() == false;
+    }
+
+    public boolean isAdmPage() {
+        return req.getRequestURI().startsWith("/adm");
+    }
 }

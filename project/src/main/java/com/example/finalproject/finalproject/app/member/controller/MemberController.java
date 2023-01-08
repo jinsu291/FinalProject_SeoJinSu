@@ -75,7 +75,6 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@Valid JoinForm joinForm) throws MessagingException {
         memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
-
         return "redirect:/member/login?msg=" + Ut.url.encode("회원가입이 완료되었습니다.");
     }
 

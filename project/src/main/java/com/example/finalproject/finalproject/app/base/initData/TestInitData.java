@@ -1,6 +1,7 @@
 package com.example.finalproject.finalproject.app.base.initData;
 
 import com.example.finalproject.finalproject.app.cart.service.CartService;
+import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
 import com.example.finalproject.finalproject.app.post.service.PostService;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Profile;
 public class TestInitData implements InitDataBefore {
     @Bean
     CommandLineRunner initData(
+            MemberRepository memberRepository,
             MemberService memberService,
             PostService postService,
             ProductService productService,
@@ -22,7 +24,7 @@ public class TestInitData implements InitDataBefore {
             OrderService orderService
     ) {
         return args -> {
-            before(memberService, postService, productService,  cartService, orderService);
+            before(memberRepository, memberService, postService, productService,  cartService, orderService);
         };
     }
 }

@@ -135,9 +135,7 @@ public class MemberService {
 
 
     public long getRestCash(Member member) {
-        Member foundMember = findByUsername(member.getUsername()).get();
-
-        return foundMember.getRestCash();
+        return memberRepository.findById(member.getId()).get().getRestCash();
     }
 
     public Optional<Member> findById(long id) {

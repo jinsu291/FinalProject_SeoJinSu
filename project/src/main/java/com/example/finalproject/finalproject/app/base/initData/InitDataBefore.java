@@ -1,7 +1,7 @@
 package com.example.finalproject.finalproject.app.base.initData;
 
-import com.example.finalproject.finalproject.app.myBook.entity.MyBook;
-import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
+import com.example.finalproject.finalproject.app.member.entity.emum.AuthLevel;
+import com.example.finalproject.finalproject.app.member.repository.MemberRepository;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
@@ -16,6 +16,7 @@ import java.util.List;
 
 public interface InitDataBefore {
     default void before(
+            MemberRepository memberRepository,
             MemberService memberService,
             PostService postService,
             ProductService productService,
@@ -37,6 +38,8 @@ public interface InitDataBefore {
         Helper helper = new Helper();
 
         Member member1 = memberService.join("user1", "1234", "user1@test.com", "");
+        member1.setAuthLevel(AuthLevel.ADMIN);
+        memberRepository.save(member1);
         Member member2 = memberService.join("user2", "1234", "user2@test.com", "user2");
 
 //        MyBook myBook1 = myBookService.create(member1, "책 1", 30_000);

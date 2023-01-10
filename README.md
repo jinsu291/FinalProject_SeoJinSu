@@ -84,6 +84,14 @@ https://sjinsu.notion.site
 
 <br/>
 
+#### 🍒 ERD 이미지
+
+---
+
+<img width="890" alt="deployStructure" src="https://github.com/jinsu291/FinalProject_SeoJinSu/blob/master/ERD%20%EC%9D%B4%EB%AF%B8%EC%A7%80/Ssubooks.png">
+
+<br/>
+
 #### 🍒 아쉬운점 & 보완할 사항
 
 ---

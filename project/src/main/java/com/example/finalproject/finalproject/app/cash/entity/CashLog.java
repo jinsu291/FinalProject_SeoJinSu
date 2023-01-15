@@ -18,10 +18,10 @@ import static javax.persistence.FetchType.LAZY;
 @SuperBuilder
 @ToString(callSuper = true)
 public class CashLog extends BaseEntity {
-    private String relTypeCode;
-    private Long relId;
     @ManyToOne(fetch = LAZY)
     private Member member;
+    private String relTypeCode;
+    private Long relId;
     private long price; // 변동
     private String eventType;
 

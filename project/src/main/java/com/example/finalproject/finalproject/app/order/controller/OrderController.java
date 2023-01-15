@@ -46,17 +46,12 @@ public class OrderController {
     @PreAuthorize("isAuthenticated()")
     public String payByRestCashOnly(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id) {
         Order order = orderService.findForPrintById(id).get();
-
         Member actor = memberContext.getMember();
-
         long restCash = memberService.getRestCash(actor);
-
         if (orderService.actorCanPayment(actor, order) == false) {
             throw new ActorCanNotPayOrderException();
         }
-
         orderService.payByRestCashOnly(order);
-
         return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("예치금으로 결제했습니다."));
     }
 
@@ -64,22 +59,16 @@ public class OrderController {
     @PreAuthorize("isAuthenticated()")
     public String showDetail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
         Order order = orderService.findForPrintById(id).orElse(null);
-
         if (order == null) {
             return rq.redirectToBackWithMsg("주문을 찾을 수 없습니다.");
         }
-
         Member actor = memberContext.getMember();
-
         long restCash = memberService.getRestCash(actor);
-
         if (orderService.actorCanSee(actor, order) == false) {
             throw new ActorCanNotSeeOrderException();
         }
-
         model.addAttribute("order", order);
         model.addAttribute("actorRestCash", restCash);
-
         return "order/detail";
     }
 
@@ -90,7 +79,6 @@ public class OrderController {
             public boolean hasError(ClientHttpResponse response) {
                 return false;
             }
-
             @Override
             public void handleError(ClientHttpResponse response) {
             }
@@ -108,15 +96,11 @@ public class OrderController {
             Model model,
             @AuthenticationPrincipal MemberContext memberContext
     ) throws Exception {
-
         Order order = orderService.findForPrintById(id).get();
-
         long orderIdInputed = Long.parseLong(orderId.split("__")[1]);
-
         if (id != orderIdInputed) {
             throw new OrderIdNotMatchedException();
         }
-
         HttpHeaders headers = new HttpHeaders();
         // headers.setBasicAuth(SECRET_KEY, ""); // spring framework 5.2 이상 버전에서 지원
         headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
@@ -129,20 +113,14 @@ public class OrderController {
         Member actor = memberContext.getMember();
         long restCash = memberService.getRestCash(actor);
         long payPriceRestCash = order.calculatePayPrice() - amount;
-
         if (payPriceRestCash > restCash) {
             throw new OrderNotEnoughRestCashException();
         }
-
         HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
-
         ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(
                 "https://api.tosspayments.com/v1/payments/" + paymentKey, request, JsonNode.class);
-
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
-
             orderService.payByTossPayments(order, payPriceRestCash);
-
             return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("결제가 완료되었습니다."));
         } else {
             JsonNode failNode = responseEntity.getBody();
@@ -176,6 +154,30 @@ public class OrderController {
 
         model.addAttribute("orders", orders);
         return "order/list";
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    public String cancel(@PathVariable Long orderId) {
+        RsData rsData = orderService.cancel(orderId, rq.getMember());
+
+        if (rsData.isFail()) {
+            return Rq.redirectWithErrorMsg("/order/%d".formatted(orderId), rsData);
+        }
+
+        return Rq.redirectWithMsg("/order/%d".formatted(orderId), rsData);
+    }
+
+    @PostMapping("/{orderId}/refund")
+    @PreAuthorize("isAuthenticated()")
+    public String refund(@PathVariable Long orderId) {
+        RsData rsData = orderService.refund(orderId, rq.getMember());
+
+        if (rsData.isFail()) {
+            return Rq.redirectWithErrorMsg("/order/%d".formatted(orderId), rsData);
+        }
+
+        return Rq.redirectWithMsg("/order/%d".formatted(orderId), rsData);
     }
 
 

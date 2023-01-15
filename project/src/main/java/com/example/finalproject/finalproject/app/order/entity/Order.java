@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,10 @@ import static javax.persistence.FetchType.LAZY;
 @ToString(callSuper = true)
 @Table(name = "product_order")
 public class Order extends BaseEntity {
+    private LocalDateTime refundDate;
+    private LocalDateTime payDate;
+    private LocalDateTime cancelDate;
+
     @ManyToOne(fetch = LAZY)
     private Member buyer;
 
@@ -50,6 +55,12 @@ public class Order extends BaseEntity {
         }
 
         return payPrice;
+    }
+
+    public void setCancelDone() {
+        cancelDate = LocalDateTime.now();
+
+        isCanceled = true;
     }
 
     public void setPaymentDone() {

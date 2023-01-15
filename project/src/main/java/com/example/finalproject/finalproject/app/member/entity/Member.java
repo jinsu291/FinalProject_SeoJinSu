@@ -47,6 +47,10 @@ public class Member extends BaseEntity {
         super(id);
     }
 
+    public String getJdenticon() {
+        return "member__" + getId();
+    }
+
     public List<GrantedAuthority> genAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("MEMBER"));

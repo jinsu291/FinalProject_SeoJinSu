@@ -92,8 +92,6 @@ public interface InitDataBefore {
 
         orderService.payByRestCashOnly(order2);
 
-        orderService.refund(order2);
-
         // 3번 주문 : 결제 전
         Order order3 = helper.order(member2, Arrays.asList(
                         product1,

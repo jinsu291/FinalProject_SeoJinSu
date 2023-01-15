@@ -22,6 +22,7 @@
 
                 <div class="flex flex-wrap gap-3">
                     <div class="flex">
+                        <svg width="20" height="20" th:data-jdenticon-value="${post.author.jdenticon}"></svg>
                         <div th:text="${post.author.name}"></div>
                     </div>
 
@@ -78,11 +79,6 @@
                          th:utext="${post.forPrintContentHtml}"></div>
                 </div>
 
-                <!--
-               <div class="toast-ui-viewer">
-                   <script type="text/x-template" th:utext="${post.content}"></script>
-               </div>
-               -->
             </div>
         </div>
     </section>

@@ -1,9 +1,11 @@
 package com.example.finalproject.finalproject.app.order.service;
 
+import com.example.finalproject.finalproject.app.base.dto.RsData;
 import com.example.finalproject.finalproject.app.cart.entity.CartItem;
 import com.example.finalproject.finalproject.app.cart.service.CartService;
 import com.example.finalproject.finalproject.app.member.entity.Member;
 import com.example.finalproject.finalproject.app.member.service.MemberService;
+import com.example.finalproject.finalproject.app.myBook.service.MyBookService;
 import com.example.finalproject.finalproject.app.order.entity.Order;
 import com.example.finalproject.finalproject.app.order.entity.OrderItem;
 import com.example.finalproject.finalproject.app.order.repository.OrderItemRepository;
@@ -14,9 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.finalproject.finalproject.app.AppConfig.cancelAvailableSeconds;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class OrderService {
     private final CartService cartService;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final MyBookService myBookService;
 
     @Transactional
     public Order createFromCart(Member buyer) {
@@ -89,12 +95,61 @@ public class OrderService {
     }
 
     @Transactional
-    public void refund(Order order) {
+    public RsData refund(Order order, Member actor) {
+        RsData actorCanRefundRsData = actorCanRefund(actor, order);
+
+        if (actorCanRefundRsData.isFail()) {
+            return actorCanRefundRsData;
+        }
+
+        order.setCancelDone();
+
         int payPrice = order.getPayPrice();
         memberService.addCash(order.getBuyer(), payPrice, "주문__%d__환불__예치금".formatted(order.getId()));
 
         order.setRefundDone();
         orderRepository.save(order);
+
+        myBookService.remove(order);
+
+        return RsData.of("S-1", "환불되었습니다.");
+    }
+
+    @Transactional
+    public RsData refund(Long orderId, Member actor) {
+        Order order = findById(orderId).orElse(null);
+
+        if (order == null) {
+            return RsData.of("F-2", "결제 상품을 찾을 수 없습니다.");
+        }
+        return refund(order, actor);
+    }
+
+    public RsData actorCanRefund(Member actor, Order order) {
+
+        if (order.isCanceled()) {
+            return RsData.of("F-1", "이미 취소되었습니다.");
+        }
+
+        if (order.isRefunded()) {
+            return RsData.of("F-4", "이미 환불되었습니다.");
+        }
+
+        if (order.isPaid() == false) {
+            return RsData.of("F-5", "결제가 되어야 환불이 가능합니다.");
+        }
+
+        if (actor.getId().equals(order.getBuyer().getId()) == false) {
+            return RsData.of("F-2", "권한이 없습니다.");
+        }
+
+        long between = ChronoUnit.SECONDS.between(order.getPayDate(), LocalDateTime.now());
+
+        if (between > cancelAvailableSeconds) {
+            return RsData.of("F-3", "결제 된지 %d분이 지났으므로, 환불 할 수 없습니다.".formatted(between / 60));
+        }
+
+        return RsData.of("S-1", "환불할 수 있습니다.");
     }
 
     public Optional<Order> findForPrintById(long id) {
@@ -137,4 +192,38 @@ public class OrderService {
     public List<Order> findAllByBuyerId(long buyerId) {
         return orderRepository.findAllByBuyerIdOrderByIdDesc(buyerId);
     }
+
+    @Transactional
+    public RsData cancel(Order order, Member actor) {
+        RsData actorCanCancelRsData = actorCanCancel(actor, order);
+        if (actorCanCancelRsData.isFail()) {
+            return actorCanCancelRsData;
+        }
+        order.setCanceled(true);
+
+        return RsData.of("S-1", "취소되었습니다.");
+    }
+
+    @Transactional
+    public RsData cancel(Long orderId, Member actor) {
+        Order order = findById(orderId).get();
+        return cancel(order, actor);
+    }
+
+    public RsData actorCanCancel(Member actor, Order order) {
+        if (order.isPaid()) {
+            return RsData.of("F-3", "이미 결제처리 되었습니다.");
+        }
+
+        if (order.isCanceled()) {
+            return RsData.of("F-1", "이미 취소되었습니다.");
+        }
+
+        if (actor.getId().equals(order.getBuyer().getId()) == false) {
+            return RsData.of("F-2", "권한이 없습니다.");
+        }
+
+        return RsData.of("S-1", "취소할 수 있습니다.");
+    }
+
 }

@@ -19,7 +19,7 @@
             <h1 class="font-bold text-lg">
                 <i class="fa-solid fa-rectangle-list"></i>
                 <a th:href="@{|/post/tag/${tagContent}|}" class="text-link">
-                    <i class="fa-solid fa-hashtag"></i>[[${tagContent}]]
+                    [[${tagContent}]]
                 </a>
                 <span>관련 글</span>
             </h1>
@@ -36,7 +36,6 @@
                             <div class="card-body">
                                 <h2 class="card-title flex flex-wrap">
                                     <a th:href="@{|/post/${post.id}|}" class="mr-auto">
-                                        <i class="fa-solid fa-newspaper"></i>
                                         <span th:text="${post.subject}"></span>
                                     </a>
                                     <div class="flex">

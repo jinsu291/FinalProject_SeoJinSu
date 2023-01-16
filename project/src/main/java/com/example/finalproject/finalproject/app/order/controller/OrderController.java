@@ -179,6 +179,4 @@ public class OrderController {
 
         return Rq.redirectWithMsg("/order/%d".formatted(orderId), rsData);
     }
-
-
 }

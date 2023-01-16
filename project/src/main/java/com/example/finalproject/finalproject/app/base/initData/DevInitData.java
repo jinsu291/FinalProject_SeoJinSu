@@ -7,6 +7,7 @@ import com.example.finalproject.finalproject.app.member.service.MemberService;
 import com.example.finalproject.finalproject.app.order.service.OrderService;
 import com.example.finalproject.finalproject.app.post.service.PostService;
 import com.example.finalproject.finalproject.app.product.service.ProductService;
+import com.example.finalproject.finalproject.app.withdraw.service.WithdrawService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,11 @@ public class DevInitData implements InitDataBefore {
             PostService postService,
             ProductService productService,
             CartService cartService,
-            OrderService orderService
+            OrderService orderService,
+            WithdrawService withdrawService
     ) {
         return args -> {
-            before(memberRepository, memberService, postService, productService,  cartService, orderService);
+            before(memberRepository, memberService, postService, productService,  cartService, orderService, withdrawService);
         };
     }
 }

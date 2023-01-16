@@ -10,6 +10,7 @@ import com.example.finalproject.finalproject.app.order.service.OrderService;
 import com.example.finalproject.finalproject.app.post.service.PostService;
 import com.example.finalproject.finalproject.app.product.entity.Product;
 import com.example.finalproject.finalproject.app.product.service.ProductService;
+import com.example.finalproject.finalproject.app.withdraw.service.WithdrawService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,8 @@ public interface InitDataBefore {
             PostService postService,
             ProductService productService,
             CartService cartService,
-            OrderService orderService) {
+            OrderService orderService,
+            WithdrawService withdrawService) {
 
         class Helper {
             public Order order(Member member, List<Product> products) {
@@ -103,5 +105,12 @@ public interface InitDataBefore {
         cartService.addItem(member1, product2);
         cartService.addItem(member1, product3);
         cartService.addItem(member2, product4);
+
+        cartService.addItem(member1, product4);
+
+        withdrawService.apply("우리은행", "1002333203948", 50000, member1);
+        withdrawService.apply("수협은행", "1002333203947", 40000, member1);
+        withdrawService.apply("국민은행", "1002333203946", 30000, member2);
+        withdrawService.apply("카카오은행", "1002333203945", 20000, member2);
     }
 }
